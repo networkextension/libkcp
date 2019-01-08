@@ -11,7 +11,7 @@
 		692AE32D1EB2EE98006A4B9D /* fec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE32C1EB2EE98006A4B9D /* fec.cpp */; };
 		692AE32F1EB2EEB0006A4B9D /* ikcp.c in Sources */ = {isa = PBXBuildFile; fileRef = 692AE32E1EB2EEB0006A4B9D /* ikcp.c */; };
 		692AE3311EB2EEBD006A4B9D /* sess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3301EB2EEBD006A4B9D /* sess.cpp */; };
-		692AE3331EB2EEE6006A4B9D /* sess.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3321EB2EEE6006A4B9D /* sess.h */; };
+		692AE3331EB2EEE6006A4B9D /* sess.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3321EB2EEE6006A4B9D /* sess.hpp */; };
 		692AE3361EB2EEEF006A4B9D /* reedsolomon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3341EB2EEEF006A4B9D /* reedsolomon.cpp */; };
 		692AE3371EB2EEEF006A4B9D /* reedsolomon.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3351EB2EEEF006A4B9D /* reedsolomon.h */; };
 		692AE33A1EB2EEF9006A4B9D /* matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3381EB2EEF9006A4B9D /* matrix.cpp */; };
@@ -56,7 +56,7 @@
 		69639BEA1EE1AB1E00893D18 /* matrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3391EB2EEF9006A4B9D /* matrix.h */; };
 		69639BEB1EE1AB2200893D18 /* reedsolomon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3341EB2EEEF006A4B9D /* reedsolomon.cpp */; };
 		69639BEC1EE1AB2800893D18 /* reedsolomon.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3351EB2EEEF006A4B9D /* reedsolomon.h */; };
-		69639BED1EE1AB2D00893D18 /* sess.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3321EB2EEE6006A4B9D /* sess.h */; };
+		69639BED1EE1AB2D00893D18 /* sess.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3321EB2EEE6006A4B9D /* sess.hpp */; };
 		69639BEE1EE1AB3100893D18 /* sess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3301EB2EEBD006A4B9D /* sess.cpp */; };
 		69639BEF1EE1AB3500893D18 /* ikcp.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3401EB2EF11006A4B9D /* ikcp.h */; };
 		69639BF01EE1AB3900893D18 /* ikcp.c in Sources */ = {isa = PBXBuildFile; fileRef = 692AE32E1EB2EEB0006A4B9D /* ikcp.c */; };
@@ -71,6 +71,34 @@
 		69B917C42178587F004CC106 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B917C32178587F004CC106 /* Network.framework */; };
 		69C757811EB2F96D00139321 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692AE3211EB2EE59006A4B9D /* kcp.framework */; };
 		69C757821EB2F96D00139321 /* kcp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 692AE3211EB2EE59006A4B9D /* kcp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		69E0493021E44E8C000FC13E /* KCPOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E0492E21E44E8C000FC13E /* KCPOSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69E0493521E44F69000FC13E /* CRC32.h in Headers */ = {isa = PBXBuildFile; fileRef = 6959B7461EBB7DEC00B0BC58 /* CRC32.h */; };
+		69E0493621E44F6D000FC13E /* CRC32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6959B7451EBB7DEC00B0BC58 /* CRC32.cpp */; };
+		69E0493721E44F70000FC13E /* BlockCrypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 695165F41EBB2663008DCF66 /* BlockCrypt.h */; };
+		69E0493821E44F73000FC13E /* BlockCrypt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695165F31EBB2663008DCF66 /* BlockCrypt.cpp */; };
+		69E0493921E44F76000FC13E /* fec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE32C1EB2EE98006A4B9D /* fec.cpp */; };
+		69E0493A21E44F7A000FC13E /* fec.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3421EB2EF1C006A4B9D /* fec.h */; };
+		69E0493B21E44F88000FC13E /* ikcp.c in Sources */ = {isa = PBXBuildFile; fileRef = 692AE32E1EB2EEB0006A4B9D /* ikcp.c */; };
+		69E0493C21E44F8C000FC13E /* ikcp.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3401EB2EF11006A4B9D /* ikcp.h */; };
+		69E0493D21E44F90000FC13E /* sess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3301EB2EEBD006A4B9D /* sess.cpp */; };
+		69E0493E21E44F93000FC13E /* sess.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3321EB2EEE6006A4B9D /* sess.hpp */; };
+		69E0493F21E44F98000FC13E /* reedsolomon.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3351EB2EEEF006A4B9D /* reedsolomon.h */; };
+		69E0494021E44F9C000FC13E /* reedsolomon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3341EB2EEEF006A4B9D /* reedsolomon.cpp */; };
+		69E0494121E44FA0000FC13E /* matrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3391EB2EEF9006A4B9D /* matrix.h */; };
+		69E0494221E44FA3000FC13E /* matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3381EB2EEF9006A4B9D /* matrix.cpp */; };
+		69E0494321E44FA7000FC13E /* inversion_tree.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE33D1EB2EF0B006A4B9D /* inversion_tree.h */; };
+		69E0494421E44FAA000FC13E /* inversion_tree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE33C1EB2EF0B006A4B9D /* inversion_tree.cpp */; };
+		69E0494521E44FAE000FC13E /* galois.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3471EB2EF1C006A4B9D /* galois.h */; };
+		69E0494621E44FB2000FC13E /* galois.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3461EB2EF1C006A4B9D /* galois.cpp */; };
+		69E0494721E44FB7000FC13E /* galois_table.c in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3451EB2EF1C006A4B9D /* galois_table.c */; };
+		69E0494821E44FBC000FC13E /* galois_noasm.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3441EB2EF1C006A4B9D /* galois_noasm.h */; };
+		69E0494921E44FC0000FC13E /* galois_noasm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3431EB2EF1C006A4B9D /* galois_noasm.cpp */; };
+		69E0494A21E44FC4000FC13E /* encoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE34E1EB2EF25006A4B9D /* encoding.h */; };
+		69E0494D21E45054000FC13E /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B917C32178587F004CC106 /* Network.framework */; };
+		69E0494F21E4509A000FC13E /* KCP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E0494E21E4509A000FC13E /* KCP.swift */; };
+		69E0495321E4516E000FC13E /* kcpextern.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E0493421E44ECC000FC13E /* kcpextern.h */; };
+		69E0495621E4537F000FC13E /* SwiftCpp-PCH.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E0495521E4537F000FC13E /* SwiftCpp-PCH.h */; };
+		69E0495821E45405000FC13E /* KcpConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E0495721E45405000FC13E /* KcpConfig.swift */; };
 		69FFC6A01EB30985008A030D /* SFKcpTun.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FFC69E1EB30985008A030D /* SFKcpTun.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69FFC6A11EB30985008A030D /* SFKcpTun.mm in Sources */ = {isa = PBXBuildFile; fileRef = 69FFC69F1EB30985008A030D /* SFKcpTun.mm */; };
 		69FFC6A51EB309E8008A030D /* TunConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FFC6A31EB309E8008A030D /* TunConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -108,7 +136,7 @@
 		692AE32C1EB2EE98006A4B9D /* fec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fec.cpp; path = ../../../fec.cpp; sourceTree = "<group>"; };
 		692AE32E1EB2EEB0006A4B9D /* ikcp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ikcp.c; path = ../../../ikcp.c; sourceTree = "<group>"; };
 		692AE3301EB2EEBD006A4B9D /* sess.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sess.cpp; path = ../../../sess.cpp; sourceTree = "<group>"; };
-		692AE3321EB2EEE6006A4B9D /* sess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sess.h; path = ../../../sess.h; sourceTree = "<group>"; };
+		692AE3321EB2EEE6006A4B9D /* sess.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = sess.hpp; path = ../../../sess.hpp; sourceTree = "<group>"; };
 		692AE3341EB2EEEF006A4B9D /* reedsolomon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = reedsolomon.cpp; path = ../../../reedsolomon.cpp; sourceTree = "<group>"; };
 		692AE3351EB2EEEF006A4B9D /* reedsolomon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = reedsolomon.h; path = ../../../reedsolomon.h; sourceTree = "<group>"; };
 		692AE3381EB2EEF9006A4B9D /* matrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = matrix.cpp; path = ../../../matrix.cpp; sourceTree = "<group>"; };
@@ -149,6 +177,14 @@
 		698D5CFB1F0A0E6B008C2335 /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sodium.framework; sourceTree = "<group>"; };
 		69B917C121785876004CC106 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = System/Library/Frameworks/Network.framework; sourceTree = SDKROOT; };
 		69B917C32178587F004CC106 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Network.framework; sourceTree = DEVELOPER_DIR; };
+		69E0492C21E44E8B000FC13E /* KCPOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KCPOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		69E0492E21E44E8C000FC13E /* KCPOSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KCPOSX.h; sourceTree = "<group>"; };
+		69E0492F21E44E8C000FC13E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		69E0493421E44ECC000FC13E /* kcpextern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = kcpextern.h; path = kcpOSX/kcpextern.h; sourceTree = SOURCE_ROOT; };
+		69E0494E21E4509A000FC13E /* KCP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KCP.swift; path = kcpOSX/KCP.swift; sourceTree = SOURCE_ROOT; };
+		69E0495421E452F1000FC13E /* module.map */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.map; sourceTree = "<group>"; };
+		69E0495521E4537F000FC13E /* SwiftCpp-PCH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftCpp-PCH.h"; sourceTree = "<group>"; };
+		69E0495721E45405000FC13E /* KcpConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KcpConfig.swift; path = kcpOSX/KcpConfig.swift; sourceTree = SOURCE_ROOT; };
 		69FFC69E1EB30985008A030D /* SFKcpTun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFKcpTun.h; path = libkcp/SFKcpTun.h; sourceTree = SOURCE_ROOT; };
 		69FFC69F1EB30985008A030D /* SFKcpTun.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SFKcpTun.mm; path = libkcp/SFKcpTun.mm; sourceTree = SOURCE_ROOT; };
 		69FFC6A31EB309E8008A030D /* TunConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TunConfig.h; path = libkcp/TunConfig.h; sourceTree = "<group>"; };
@@ -183,6 +219,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		69E0492921E44E8B000FC13E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69E0494D21E45054000FC13E /* Network.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -193,6 +237,7 @@
 				692AE3231EB2EE59006A4B9D /* libkcp */,
 				692AE3551EB2EF83006A4B9D /* kcptest */,
 				69639BD61EE1AAC100893D18 /* kcpOSX */,
+				69E0492D21E44E8C000FC13E /* KCPOSX */,
 				692AE3221EB2EE59006A4B9D /* Products */,
 				692AE36F1EB2F191006A4B9D /* Frameworks */,
 			);
@@ -204,6 +249,7 @@
 				692AE3211EB2EE59006A4B9D /* kcp.framework */,
 				692AE3541EB2EF83006A4B9D /* kcptest.app */,
 				69639BD51EE1AAC100893D18 /* kcp.framework */,
+				69E0492C21E44E8B000FC13E /* KCPOSX.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -223,7 +269,7 @@
 				692AE3391EB2EEF9006A4B9D /* matrix.h */,
 				692AE3341EB2EEEF006A4B9D /* reedsolomon.cpp */,
 				692AE3351EB2EEEF006A4B9D /* reedsolomon.h */,
-				692AE3321EB2EEE6006A4B9D /* sess.h */,
+				692AE3321EB2EEE6006A4B9D /* sess.hpp */,
 				692AE3301EB2EEBD006A4B9D /* sess.cpp */,
 				692AE3401EB2EF11006A4B9D /* ikcp.h */,
 				692AE32E1EB2EEB0006A4B9D /* ikcp.c */,
@@ -288,6 +334,20 @@
 			path = kcpOSX;
 			sourceTree = "<group>";
 		};
+		69E0492D21E44E8C000FC13E /* KCPOSX */ = {
+			isa = PBXGroup;
+			children = (
+				69E0495421E452F1000FC13E /* module.map */,
+				69E0492E21E44E8C000FC13E /* KCPOSX.h */,
+				69E0493421E44ECC000FC13E /* kcpextern.h */,
+				69E0492F21E44E8C000FC13E /* Info.plist */,
+				69E0495521E4537F000FC13E /* SwiftCpp-PCH.h */,
+				69E0494E21E4509A000FC13E /* KCP.swift */,
+				69E0495721E45405000FC13E /* KcpConfig.swift */,
+			);
+			path = KCPOSX;
+			sourceTree = "<group>";
+		};
 		69FFC6A21EB3098C008A030D /* tun */ = {
 			isa = PBXGroup;
 			children = (
@@ -314,7 +374,7 @@
 				692AE33F1EB2EF0B006A4B9D /* inversion_tree.h in Headers */,
 				692AE3371EB2EEEF006A4B9D /* reedsolomon.h in Headers */,
 				692AE3481EB2EF1C006A4B9D /* fec.h in Headers */,
-				692AE3331EB2EEE6006A4B9D /* sess.h in Headers */,
+				692AE3331EB2EEE6006A4B9D /* sess.hpp in Headers */,
 				692AE3261EB2EE59006A4B9D /* kcp.h in Headers */,
 				692AE33B1EB2EEF9006A4B9D /* matrix.h in Headers */,
 				692AE3411EB2EF11006A4B9D /* ikcp.h in Headers */,
@@ -327,7 +387,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69639BED1EE1AB2D00893D18 /* sess.h in Headers */,
+				69639BED1EE1AB2D00893D18 /* sess.hpp in Headers */,
 				69639BEC1EE1AB2800893D18 /* reedsolomon.h in Headers */,
 				69639BDD1EE1AAD700893D18 /* SFKcpTun.h in Headers */,
 				69639BD91EE1AAC100893D18 /* kcp.h in Headers */,
@@ -341,6 +401,27 @@
 				69639BF71EE1AB6100893D18 /* CRC32.h in Headers */,
 				69639BEF1EE1AB3500893D18 /* ikcp.h in Headers */,
 				69639BF51EE1AB5900893D18 /* BlockCrypt.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69E0492721E44E8B000FC13E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69E0493C21E44F8C000FC13E /* ikcp.h in Headers */,
+				69E0493521E44F69000FC13E /* CRC32.h in Headers */,
+				69E0493A21E44F7A000FC13E /* fec.h in Headers */,
+				69E0494121E44FA0000FC13E /* matrix.h in Headers */,
+				69E0493721E44F70000FC13E /* BlockCrypt.h in Headers */,
+				69E0494521E44FAE000FC13E /* galois.h in Headers */,
+				69E0494821E44FBC000FC13E /* galois_noasm.h in Headers */,
+				69E0494A21E44FC4000FC13E /* encoding.h in Headers */,
+				69E0493F21E44F98000FC13E /* reedsolomon.h in Headers */,
+				69E0494321E44FA7000FC13E /* inversion_tree.h in Headers */,
+				69E0495621E4537F000FC13E /* SwiftCpp-PCH.h in Headers */,
+				69E0495321E4516E000FC13E /* kcpextern.h in Headers */,
+				69E0493E21E44F93000FC13E /* sess.hpp in Headers */,
+				69E0493021E44E8C000FC13E /* KCPOSX.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,6 +483,24 @@
 			productReference = 69639BD51EE1AAC100893D18 /* kcp.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		69E0492B21E44E8B000FC13E /* KCPOSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 69E0493321E44E8C000FC13E /* Build configuration list for PBXNativeTarget "KCPOSX" */;
+			buildPhases = (
+				69E0492721E44E8B000FC13E /* Headers */,
+				69E0492821E44E8B000FC13E /* Sources */,
+				69E0492921E44E8B000FC13E /* Frameworks */,
+				69E0492A21E44E8B000FC13E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KCPOSX;
+			productName = KCPOSX;
+			productReference = 69E0492C21E44E8B000FC13E /* KCPOSX.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -427,6 +526,12 @@
 						DevelopmentTeam = 745WQDK4L7;
 						ProvisioningStyle = Automatic;
 					};
+					69E0492B21E44E8B000FC13E = {
+						CreatedOnToolsVersion = 10.1;
+						DevelopmentTeam = 745WQDK4L7;
+						LastSwiftMigration = 1010;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 692AE31B1EB2EE59006A4B9D /* Build configuration list for PBXProject "libkcp" */;
@@ -445,6 +550,7 @@
 				692AE3201EB2EE59006A4B9D /* kcp */,
 				692AE3531EB2EF83006A4B9D /* kcptest */,
 				69639BD41EE1AAC100893D18 /* kcpOSX */,
+				69E0492B21E44E8B000FC13E /* KCPOSX */,
 			);
 		};
 /* End PBXProject section */
@@ -468,6 +574,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		69639BD31EE1AAC100893D18 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69E0492A21E44E8B000FC13E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -525,6 +638,26 @@
 				69639BF61EE1AB5D00893D18 /* CRC32.cpp in Sources */,
 				69639BE01EE1AAEC00893D18 /* TunConfig.m in Sources */,
 				69639BEB1EE1AB2200893D18 /* reedsolomon.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69E0492821E44E8B000FC13E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69E0493921E44F76000FC13E /* fec.cpp in Sources */,
+				69E0493821E44F73000FC13E /* BlockCrypt.cpp in Sources */,
+				69E0495821E45405000FC13E /* KcpConfig.swift in Sources */,
+				69E0494F21E4509A000FC13E /* KCP.swift in Sources */,
+				69E0493B21E44F88000FC13E /* ikcp.c in Sources */,
+				69E0494221E44FA3000FC13E /* matrix.cpp in Sources */,
+				69E0494621E44FB2000FC13E /* galois.cpp in Sources */,
+				69E0493D21E44F90000FC13E /* sess.cpp in Sources */,
+				69E0494921E44FC0000FC13E /* galois_noasm.cpp in Sources */,
+				69E0493621E44F6D000FC13E /* CRC32.cpp in Sources */,
+				69E0494021E44F9C000FC13E /* reedsolomon.cpp in Sources */,
+				69E0494421E44FAA000FC13E /* inversion_tree.cpp in Sources */,
+				69E0494721E44FB7000FC13E /* galois_table.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -799,6 +932,72 @@
 			};
 			name = Release;
 		};
+		69E0493121E44E8C000FC13E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 745WQDK4L7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = KCPOSX/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.KCPOSX;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/KCPOSX";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		69E0493221E44E8C000FC13E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 745WQDK4L7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = KCPOSX/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.KCPOSX;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/KCPOSX";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -834,6 +1033,15 @@
 			buildConfigurations = (
 				69639BDA1EE1AAC100893D18 /* Debug */,
 				69639BDB1EE1AAC100893D18 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		69E0493321E44E8C000FC13E /* Build configuration list for PBXNativeTarget "KCPOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				69E0493121E44E8C000FC13E /* Debug */,
+				69E0493221E44E8C000FC13E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
