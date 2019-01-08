@@ -9,7 +9,7 @@
 #include <cstring>
 #include "CRC32.h"
 #include <Network/Network.h>
-
+#include "kcpextern.h"
 // Global Options nw
 char *g_psk = NULL;            // TLS PSK
 char *g_local_port = NULL;    // Local port flag
@@ -794,4 +794,37 @@ UDPSession::send_loop(nw_connection_t connection, dispatch_data_t _Nonnull write
         });
     }
     
+}
+//MARK:- 实现PExtern.h中的方法
+CPPUDPSession DialWithOptions(const char *ip, const char *port, size_t dataShards, size_t parityShards,size_t nodelay,size_t interval,size_t resend ,size_t nc,size_t sndwnd,size_t rcvwnd,size_t mtu,size_t iptos)
+{
+    
+    UDPSession *sess  =   UDPSession::DialWithOptions(ip, port, dataShards,parityShards);
+    sess->NoDelay(nodelay, interval, resend, nc);
+    sess->WndSize(sndwnd, rcvwnd);
+    sess->SetMtu(mtu);
+    sess->SetStreamMode(true);
+    sess->SetDSCP(iptos);
+    return (CPPUDPSession)sess;
+}
+void NWUpdate(CPPUDPSession sess)
+{
+    long s, u;
+    IUINT64 value;
+    struct timeval time;
+    gettimeofday(&time, NULL);
+    _itimeofday(&s, &u);
+    value = ((IUINT64) s) * 1000 + (u / 1000);
+    UDPSession *ss = (UDPSession *)sess;
+    ss->NWUpdate(value & 0xfffffffful);
+}
+ssize_t Write(CPPUDPSession sess,const char *buf, size_t sz)
+{
+    UDPSession *ss = (UDPSession *)sess;
+    return  ss->Write(buf, sz);
+    
+}
+void start_send_receive_loop(CPPUDPSession sess,recvBlock didRecv){
+    UDPSession *ss = (UDPSession *)sess;
+    ss->start_send_receive_loop(didRecv);
 }

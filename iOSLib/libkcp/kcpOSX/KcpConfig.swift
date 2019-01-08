@@ -44,19 +44,23 @@ public enum KcpCryptoMethod:String {
     case none
 }
 public struct KcpConfig {
-    let dataShards:Int
-    let parityShards:Int
-    let nodelay:Int
-    let interval:Int
-    let resend:Int
-    let nc:Int
-    let sndwnd:Int
-    let rcvwnd:Int
-    let mtu:Int
-    let iptos:Int
-    let keepAliveInterval:Int
-    let keepAliveTimeout:Int
-    let key:Data
-    let crypt:KcpCryptoMethod
-    
+    public var dataShards:Int = 0
+    public var parityShards:Int = 0
+    public var nodelay:Int = 0
+    public var interval:Int = 0
+    public var resend:Int = 0
+    public var  nc:Int = 0
+    public var sndwnd:Int = 0
+    public var  rcvwnd:Int = 0
+    public var  mtu:Int = 0
+    public var iptos:Int = 0
+    public var keepAliveInterval:Int = 0
+    public var keepAliveTimeout:Int = 0
+    public var key:Data?
+    public  var crypt:KcpCryptoMethod = .none
+//    public init(key:Data,crypto:KcpCryptoMethod){
+//        self.key = key
+//        self.crypt = crypt
+//    }
+    public init() {}
 }

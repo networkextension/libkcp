@@ -9,7 +9,7 @@
 #include <sys/time.h>
 #include <cstring>
 #include <cstdio>
-#include "sess.h"
+#include "sess.hpp"
 #import "SFKcpTun.h"
 
 #include <arpa/inet.h>
@@ -95,7 +95,7 @@ IUINT32 iclock() {
             });
         }
         
-        self.tunConnected = connectd;
+        //self.tunConnected = connectd;
         self.recvData = recv;
         self.disConnected = disConnect;
 

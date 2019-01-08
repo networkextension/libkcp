@@ -10,20 +10,28 @@
 #define kcpextern_h
 #include <stdbool.h>
 #include <stddef.h>
-
+#include <sys/types.h>
 //#include
-typedef void* UDPSession;
-
+typedef void* CPPUDPSession;
+typedef void (^recvBlock)(char* buffer,size_t len);
 #ifdef __cplusplus
 extern "C"{
 #endif
     //在这里写上c的代码
     
     //初始化一个Person的实例
+//    sess->NoDelay(nodelay, interval, resend, nc);
+//    sess->WndSize(sndwnd, rcvwnd);
+//    sess->SetMtu(mtu);
+//    sess->SetStreamMode(true);
+//    sess->SetDSCP(iptos);
     //UDPSession DialWithOptions(const char *ip, const char *port, size_t dataShards, size_t parityShards,BlockCrypt *block)
-    UDPSession DialWithOptions(const char *ip, const char *port, size_t dataShards, size_t parityShards);
+    CPPUDPSession DialWithOptions(const char *ip, const char *port, size_t dataShards, size_t parityShards,size_t nodelay,size_t interval,size_t resend ,size_t nc,size_t sndwnd,size_t rcvwnd,size_t mtu,size_t iptos);
+    void NWUpdate(CPPUDPSession sess);
+    ssize_t Write(CPPUDPSession sess,const char *buf, size_t sz);
+    void start_send_receive_loop(CPPUDPSession sess,recvBlock didRecv);
     //person调用自我介绍的方法
-    int NoDelay(int nodelay, int interval, int resend, int nc);
+    //int NoDelay(CPPUDPSession session,int nodelay, int interval, int resend, int nc);
     //void person_introduceMySelf(UDPSession person);
     //void person_hello(UDPSession person , UDPSession other);
     
