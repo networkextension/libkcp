@@ -99,6 +99,33 @@
 		69E0495321E4516E000FC13E /* kcpextern.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E0493421E44ECC000FC13E /* kcpextern.h */; };
 		69E0495621E4537F000FC13E /* SwiftCpp-PCH.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E0495521E4537F000FC13E /* SwiftCpp-PCH.h */; };
 		69E0495821E45405000FC13E /* KcpConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E0495721E45405000FC13E /* KcpConfig.swift */; };
+		69E0497421E47E6A000FC13E /* KCPiOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E0497221E47E6A000FC13E /* KCPiOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		69E0497821E47E97000FC13E /* kcpextern.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E0493421E44ECC000FC13E /* kcpextern.h */; };
+		69E0497921E47E9B000FC13E /* SwiftCpp-PCH.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E0495521E4537F000FC13E /* SwiftCpp-PCH.h */; };
+		69E0497A21E47E9E000FC13E /* KCP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E0494E21E4509A000FC13E /* KCP.swift */; };
+		69E0497B21E47EA2000FC13E /* KcpConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E0495721E45405000FC13E /* KcpConfig.swift */; };
+		69E0497C21E47EA8000FC13E /* encoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE34E1EB2EF25006A4B9D /* encoding.h */; };
+		69E0497D21E47EAC000FC13E /* galois_noasm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3431EB2EF1C006A4B9D /* galois_noasm.cpp */; };
+		69E0497E21E47EAF000FC13E /* galois_noasm.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3441EB2EF1C006A4B9D /* galois_noasm.h */; };
+		69E0497F21E47EB3000FC13E /* galois_table.c in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3451EB2EF1C006A4B9D /* galois_table.c */; };
+		69E0498021E47EB6000FC13E /* galois.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3461EB2EF1C006A4B9D /* galois.cpp */; };
+		69E0498121E47EB9000FC13E /* galois.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3471EB2EF1C006A4B9D /* galois.h */; };
+		69E0498221E47EBC000FC13E /* inversion_tree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE33C1EB2EF0B006A4B9D /* inversion_tree.cpp */; };
+		69E0498321E47EBF000FC13E /* inversion_tree.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE33D1EB2EF0B006A4B9D /* inversion_tree.h */; };
+		69E0498421E47EC2000FC13E /* matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3381EB2EEF9006A4B9D /* matrix.cpp */; };
+		69E0498521E47EC5000FC13E /* matrix.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3391EB2EEF9006A4B9D /* matrix.h */; };
+		69E0498621E47EC8000FC13E /* reedsolomon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3341EB2EEEF006A4B9D /* reedsolomon.cpp */; };
+		69E0498721E47ECB000FC13E /* reedsolomon.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3351EB2EEEF006A4B9D /* reedsolomon.h */; };
+		69E0498821E47ECE000FC13E /* sess.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3321EB2EEE6006A4B9D /* sess.hpp */; };
+		69E0498921E47ED2000FC13E /* sess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3301EB2EEBD006A4B9D /* sess.cpp */; };
+		69E0498A21E47ED5000FC13E /* ikcp.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3401EB2EF11006A4B9D /* ikcp.h */; };
+		69E0498B21E47ED8000FC13E /* ikcp.c in Sources */ = {isa = PBXBuildFile; fileRef = 692AE32E1EB2EEB0006A4B9D /* ikcp.c */; };
+		69E0498C21E47EE3000FC13E /* fec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE32C1EB2EE98006A4B9D /* fec.cpp */; };
+		69E0498D21E47EE7000FC13E /* BlockCrypt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695165F31EBB2663008DCF66 /* BlockCrypt.cpp */; };
+		69E0498E21E47EEA000FC13E /* BlockCrypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 695165F41EBB2663008DCF66 /* BlockCrypt.h */; };
+		69E0498F21E47EEE000FC13E /* CRC32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6959B7451EBB7DEC00B0BC58 /* CRC32.cpp */; };
+		69E0499021E47EF2000FC13E /* CRC32.h in Headers */ = {isa = PBXBuildFile; fileRef = 6959B7461EBB7DEC00B0BC58 /* CRC32.h */; };
+		69E0499121E47F48000FC13E /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B917C121785876004CC106 /* Network.framework */; };
 		69FFC6A01EB30985008A030D /* SFKcpTun.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FFC69E1EB30985008A030D /* SFKcpTun.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69FFC6A11EB30985008A030D /* SFKcpTun.mm in Sources */ = {isa = PBXBuildFile; fileRef = 69FFC69F1EB30985008A030D /* SFKcpTun.mm */; };
 		69FFC6A51EB309E8008A030D /* TunConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FFC6A31EB309E8008A030D /* TunConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -177,7 +204,7 @@
 		698D5CFB1F0A0E6B008C2335 /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sodium.framework; sourceTree = "<group>"; };
 		69B917C121785876004CC106 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = System/Library/Frameworks/Network.framework; sourceTree = SDKROOT; };
 		69B917C32178587F004CC106 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Network.framework; sourceTree = DEVELOPER_DIR; };
-		69E0492C21E44E8B000FC13E /* KCPOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KCPOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		69E0492C21E44E8B000FC13E /* KCP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KCP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69E0492E21E44E8C000FC13E /* KCPOSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KCPOSX.h; sourceTree = "<group>"; };
 		69E0492F21E44E8C000FC13E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69E0493421E44ECC000FC13E /* kcpextern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = kcpextern.h; path = kcpOSX/kcpextern.h; sourceTree = SOURCE_ROOT; };
@@ -185,6 +212,9 @@
 		69E0495421E452F1000FC13E /* module.map */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.map; sourceTree = "<group>"; };
 		69E0495521E4537F000FC13E /* SwiftCpp-PCH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftCpp-PCH.h"; sourceTree = "<group>"; };
 		69E0495721E45405000FC13E /* KcpConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KcpConfig.swift; path = kcpOSX/KcpConfig.swift; sourceTree = SOURCE_ROOT; };
+		69E0497021E47E6A000FC13E /* KCP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KCP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		69E0497221E47E6A000FC13E /* KCPiOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KCPiOS.h; sourceTree = "<group>"; };
+		69E0497321E47E6A000FC13E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69FFC69E1EB30985008A030D /* SFKcpTun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFKcpTun.h; path = libkcp/SFKcpTun.h; sourceTree = SOURCE_ROOT; };
 		69FFC69F1EB30985008A030D /* SFKcpTun.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SFKcpTun.mm; path = libkcp/SFKcpTun.mm; sourceTree = SOURCE_ROOT; };
 		69FFC6A31EB309E8008A030D /* TunConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TunConfig.h; path = libkcp/TunConfig.h; sourceTree = "<group>"; };
@@ -227,6 +257,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		69E0496D21E47E6A000FC13E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69E0499121E47F48000FC13E /* Network.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -238,6 +276,7 @@
 				692AE3551EB2EF83006A4B9D /* kcptest */,
 				69639BD61EE1AAC100893D18 /* kcpOSX */,
 				69E0492D21E44E8C000FC13E /* KCPOSX */,
+				69E0497121E47E6A000FC13E /* KCPiOS */,
 				692AE3221EB2EE59006A4B9D /* Products */,
 				692AE36F1EB2F191006A4B9D /* Frameworks */,
 			);
@@ -249,7 +288,8 @@
 				692AE3211EB2EE59006A4B9D /* kcp.framework */,
 				692AE3541EB2EF83006A4B9D /* kcptest.app */,
 				69639BD51EE1AAC100893D18 /* kcp.framework */,
-				69E0492C21E44E8B000FC13E /* KCPOSX.framework */,
+				69E0492C21E44E8B000FC13E /* KCP.framework */,
+				69E0497021E47E6A000FC13E /* KCP.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -348,6 +388,15 @@
 			path = KCPOSX;
 			sourceTree = "<group>";
 		};
+		69E0497121E47E6A000FC13E /* KCPiOS */ = {
+			isa = PBXGroup;
+			children = (
+				69E0497221E47E6A000FC13E /* KCPiOS.h */,
+				69E0497321E47E6A000FC13E /* Info.plist */,
+			);
+			path = KCPiOS;
+			sourceTree = "<group>";
+		};
 		69FFC6A21EB3098C008A030D /* tun */ = {
 			isa = PBXGroup;
 			children = (
@@ -425,6 +474,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		69E0496B21E47E6A000FC13E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69E0498721E47ECB000FC13E /* reedsolomon.h in Headers */,
+				69E0497421E47E6A000FC13E /* KCPiOS.h in Headers */,
+				69E0497821E47E97000FC13E /* kcpextern.h in Headers */,
+				69E0497921E47E9B000FC13E /* SwiftCpp-PCH.h in Headers */,
+				69E0498521E47EC5000FC13E /* matrix.h in Headers */,
+				69E0497C21E47EA8000FC13E /* encoding.h in Headers */,
+				69E0498321E47EBF000FC13E /* inversion_tree.h in Headers */,
+				69E0498E21E47EEA000FC13E /* BlockCrypt.h in Headers */,
+				69E0497E21E47EAF000FC13E /* galois_noasm.h in Headers */,
+				69E0498821E47ECE000FC13E /* sess.hpp in Headers */,
+				69E0498121E47EB9000FC13E /* galois.h in Headers */,
+				69E0499021E47EF2000FC13E /* CRC32.h in Headers */,
+				69E0498A21E47ED5000FC13E /* ikcp.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -498,7 +567,25 @@
 			);
 			name = KCPOSX;
 			productName = KCPOSX;
-			productReference = 69E0492C21E44E8B000FC13E /* KCPOSX.framework */;
+			productReference = 69E0492C21E44E8B000FC13E /* KCP.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		69E0496F21E47E6A000FC13E /* KCPiOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 69E0497521E47E6A000FC13E /* Build configuration list for PBXNativeTarget "KCPiOS" */;
+			buildPhases = (
+				69E0496B21E47E6A000FC13E /* Headers */,
+				69E0496C21E47E6A000FC13E /* Sources */,
+				69E0496D21E47E6A000FC13E /* Frameworks */,
+				69E0496E21E47E6A000FC13E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KCPiOS;
+			productName = KCPiOS;
+			productReference = 69E0497021E47E6A000FC13E /* KCP.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -532,6 +619,11 @@
 						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 					};
+					69E0496F21E47E6A000FC13E = {
+						CreatedOnToolsVersion = 10.1;
+						DevelopmentTeam = 745WQDK4L7;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 692AE31B1EB2EE59006A4B9D /* Build configuration list for PBXProject "libkcp" */;
@@ -551,6 +643,7 @@
 				692AE3531EB2EF83006A4B9D /* kcptest */,
 				69639BD41EE1AAC100893D18 /* kcpOSX */,
 				69E0492B21E44E8B000FC13E /* KCPOSX */,
+				69E0496F21E47E6A000FC13E /* KCPiOS */,
 			);
 		};
 /* End PBXProject section */
@@ -581,6 +674,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		69E0492A21E44E8B000FC13E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69E0496E21E47E6A000FC13E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -658,6 +758,26 @@
 				69E0494021E44F9C000FC13E /* reedsolomon.cpp in Sources */,
 				69E0494421E44FAA000FC13E /* inversion_tree.cpp in Sources */,
 				69E0494721E44FB7000FC13E /* galois_table.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69E0496C21E47E6A000FC13E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69E0498D21E47EE7000FC13E /* BlockCrypt.cpp in Sources */,
+				69E0498B21E47ED8000FC13E /* ikcp.c in Sources */,
+				69E0497B21E47EA2000FC13E /* KcpConfig.swift in Sources */,
+				69E0498221E47EBC000FC13E /* inversion_tree.cpp in Sources */,
+				69E0498921E47ED2000FC13E /* sess.cpp in Sources */,
+				69E0497F21E47EB3000FC13E /* galois_table.c in Sources */,
+				69E0498421E47EC2000FC13E /* matrix.cpp in Sources */,
+				69E0497D21E47EAC000FC13E /* galois_noasm.cpp in Sources */,
+				69E0498021E47EB6000FC13E /* galois.cpp in Sources */,
+				69E0498C21E47EE3000FC13E /* fec.cpp in Sources */,
+				69E0498F21E47EEE000FC13E /* CRC32.cpp in Sources */,
+				69E0497A21E47E9E000FC13E /* KCP.swift in Sources */,
+				69E0498621E47EC8000FC13E /* reedsolomon.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -957,7 +1077,8 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.KCPOSX;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_MODULE_NAME = KCP;
+				PRODUCT_NAME = KCP;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -990,12 +1111,75 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.KCPOSX;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_MODULE_NAME = KCP;
+				PRODUCT_NAME = KCP;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/KCPOSX";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		69E0497621E47E6A000FC13E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 745WQDK4L7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = KCPiOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.KCPiOS;
+				PRODUCT_MODULE_NAME = KCP;
+				PRODUCT_NAME = KCP;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/KCPOSX";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		69E0497721E47E6A000FC13E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 745WQDK4L7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = KCPiOS/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yarshure.KCPiOS;
+				PRODUCT_MODULE_NAME = KCP;
+				PRODUCT_NAME = KCP;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/KCPOSX";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1043,6 +1227,15 @@
 			buildConfigurations = (
 				69E0493121E44E8C000FC13E /* Debug */,
 				69E0493221E44E8C000FC13E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		69E0497521E47E6A000FC13E /* Build configuration list for PBXNativeTarget "KCPiOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				69E0497621E47E6A000FC13E /* Debug */,
+				69E0497721E47E6A000FC13E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
