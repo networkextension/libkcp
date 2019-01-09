@@ -14,8 +14,9 @@
 //#include "sodium.h"
 class BlockCrypt  {
 private:
-    CCCryptorRef send_ctx;
-    CCCryptorRef recv_ctx;
+    size_t keyLen = 0;
+    const void* key;
+
 public:
     static BlockCrypt* blockWith(const void* key,const char* crypt);
     // output udp packet

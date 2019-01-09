@@ -49,7 +49,7 @@ const size_t cryptHeaderSize = nonceSize + crcSize;
 
 // FEC keeps rxFECMulti* (dataShard+parityShard) ordered packets in memory
 const size_t rxFECMulti = 3;
-#define KCP_DEBUG 1
+#define KCP_DEBUG 0
 void
 dump(char *tag,  byte *text, size_t len)
 {
@@ -101,8 +101,8 @@ UDPSession::Dial(const char *ip, uint16_t port) {
     socklen_t addressLength = sizeof(localAddress);
     getsockname(sockfd, (struct sockaddr*)&localAddress,   \
                 &addressLength);
-    printf("local address: %s\n", inet_ntoa( localAddress.sin_addr));
-    printf("local port: %d\n", (int) ntohs(localAddress.sin_port));
+    debug_print("local address: %s\n", inet_ntoa( localAddress.sin_addr));
+    debug_print("local port: %d\n", (int) ntohs(localAddress.sin_port));
     
     return UDPSession::createSession(sockfd);
 }
@@ -111,7 +111,7 @@ UDPSession *
 UDPSession::DialWithOptions(const char *ip, const char *port, size_t dataShards, size_t parityShards) {
     UDPSession  *sess;
     if (__builtin_available(iOS 12,macOS 10.14, *)) {
-        printf("nw event base udp socket");
+        debug_print("nw event base udp socket\n");
         
         nw_connection_t connection  = create_outbound_connection(ip , port);
         if (connection == NULL) {
@@ -141,7 +141,7 @@ UDPSession::DialWithOptions(const char *ip, const char *port, size_t dataShards,
     }
     
     sess->block = NULL;
-    printf("sess->block:%p",sess->block);
+    
     return sess;
 };
 // DialWithOptions connects to the remote address "raddr" on the network "udp" with packet encryption with block
@@ -151,8 +151,11 @@ UDPSession::DialWithOptions(const char *ip, const char *port, size_t dataShards,
     if (sess == nullptr) {
         return nullptr;
     }
+    if (block != nil) {
+        sess->block = block;
+        debug_print("sess->block:%p\n",sess->block);
+    }
     
-    sess->block = block;
     return sess;
 }
 
@@ -370,8 +373,8 @@ char * UDPSession::getLocalIPAddr() noexcept{
     socklen_t addressLength = sizeof(localAddress);
     getsockname(this->m_sockfd, (struct sockaddr*)&localAddress,   \
                 &addressLength);
-    printf("local address: %s\n", inet_ntoa( localAddress.sin_addr));
-    printf("local port: %d\n", (int) ntohs(localAddress.sin_port));
+    debug_print("local address: %s\n", inet_ntoa( localAddress.sin_addr));
+    debug_print("local port: %d\n", (int) ntohs(localAddress.sin_port));
     return inet_ntoa( localAddress.sin_addr);
 }
 int UDPSession::getLocalPort() noexcept{
@@ -380,8 +383,8 @@ int UDPSession::getLocalPort() noexcept{
     socklen_t addressLength = sizeof(localAddress);
     getsockname(this->m_sockfd, (struct sockaddr*)&localAddress,   \
                 &addressLength);
-    printf("local address: %s\n", inet_ntoa( localAddress.sin_addr));
-    printf("local port: %d\n", (int) ntohs(localAddress.sin_port));
+    debug_print("local address: %s\n", inet_ntoa( localAddress.sin_addr));
+    debug_print("local port: %d\n", (int) ntohs(localAddress.sin_port));
     return (int) ntohs(localAddress.sin_port);
 }
 void
@@ -424,10 +427,6 @@ UDPSession::out_wrapper(const char *buf, int len, struct IKCPCB *, void *user) {
         
         int32_t sum =  crc32_kr(0,ptr  ,len +  fecHeaderSizePlus2);
         memcpy(sess->m_buf + nonceSize, &sum, 4);
-        //dump("UDPSession header", (char *)header, nonceSize + crcSize);
-        //sess->output(header, nonceSize + crcSize );
-        
-        
         
         // FEC calculation
         // copy "2B size + data" to shards
@@ -436,7 +435,9 @@ UDPSession::out_wrapper(const char *buf, int len, struct IKCPCB *, void *user) {
         std::make_shared<std::vector<byte>>(&sess->m_buf[fecHeaderSize + cryptHeaderSize], &sess->m_buf[fecHeaderSize + cryptHeaderSize + slen]);
         size_t outlen = 0;
         if (block != NULL ) {
+            dump((char*)"UDPSession  packet", sess->m_buf, (size_t)len + 20 +8);
             block->encrypt(sess->m_buf, len + fecHeaderSizePlus2 + cryptHeaderSize, &outlen);
+            debug_print("len:%ld outlen:%ld",(size_t)len + 20 +8,outlen);
             sess->output(sess->m_buf, outlen);
         }else {
             sess->output(sess->m_buf, len + fecHeaderSizePlus2 + cryptHeaderSize);
@@ -467,6 +468,7 @@ UDPSession::out_wrapper(const char *buf, int len, struct IKCPCB *, void *user) {
                 
                 //go version write ecc to remote?
                 if (block != NULL) {
+                    dump((char*)"Shards  packet plain", sess->m_buf, sess->shards[i]->size() + fecHeaderSize+cryptHeaderSize);
                     block->encrypt(sess->m_buf, sess->shards[i]->size() + fecHeaderSize + cryptHeaderSize, &outlen);
                     sess->output(sess->m_buf,outlen);
                 }else {
@@ -638,10 +640,13 @@ void
 UDPSession::receive_loop()
 {
     nw_connection_t connection = this->outbound_connection;
-    printf("nw start recvloop\n");
+    debug_print("nw start recvloop\n");
     if (__builtin_available(iOS 12, macOS 10.14,*)) {
         nw_connection_receive(connection, 1, 2048, ^(dispatch_data_t content, nw_content_context_t context, bool is_complete, nw_error_t receive_error) {
-            
+            if (content == NULL){
+                //socket failure
+                return ;
+            }
             CFRetain(context);
             dispatch_block_t schedule_next_receive = ^{
                 // If the context is marked as complete, and is the final context,
@@ -668,7 +673,7 @@ UDPSession::receive_loop()
                     this->NWUpdate(value & 0xfffffffful);
                     // this->buffer_used = 0 ;
                 }else {
-                    printf("is_complete false \n");
+                    debug_print("is_complete false \n");
                 }
                
                 
@@ -691,7 +696,7 @@ UDPSession::receive_loop()
                     bool dataValid = false;
                     
                     size_t n = dispatch_data_get_size(content);
-                    printf("current read complete new data:%ld\n",n);
+                    debug_print("current read complete new data:%ld\n",n);
                     __block size_t buffer_used = 0;
                     dispatch_data_apply(content, ^bool(dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
                         fprintf(stderr, "region with offset %zu, size %zu\n", offset, size);
@@ -711,7 +716,7 @@ UDPSession::receive_loop()
                     if (block != NULL) {
                         
                         block->decrypt(m_buf, n, &outlen);
-                        
+                        dump((char*)"UDP Update dec", m_buf, n);
                         memcpy(&sum, (uint8_t *)out, sizeof(uint32_t));
                         out += crcSize;
                         int32_t checksum = crc32_kr(0,(uint8_t *)out, n-cryptHeaderSize);
@@ -740,7 +745,7 @@ UDPSession::receive_loop()
                         if(nn > 0 && this->didRecv != nil){
                             this->didRecv(buf,nn);
                         }else {
-                            printf("no date recv!\n");
+                            debug_print("no date recv!\n");
                         }
                         free(buf);
                     }else {
@@ -781,7 +786,7 @@ void
 UDPSession::send_loop(nw_connection_t connection, dispatch_data_t _Nonnull write_data){
     // Every send is marked as complete. This has no effect with the default message context for TCP,
     // but is required for UDP to indicate the end of a packet.
-    printf("nw send data!\n");
+    debug_print("nw send data!\n");
     if (__builtin_available(iOS 12,macOS 10.14, *)) {
         nw_connection_send(connection, write_data, NW_CONNECTION_DEFAULT_MESSAGE_CONTEXT, true, ^(nw_error_t  _Nullable error) {
             if (error != NULL) {
@@ -789,17 +794,17 @@ UDPSession::send_loop(nw_connection_t connection, dispatch_data_t _Nonnull write
                 warn("send error %d",errno);
             } else {
                 //send_loop(connection);
-                printf("send fin\n");
+                debug_print("send fin\n");
             }
         });
     }
     
 }
 //MARK:- 实现PExtern.h中的方法
-CPPUDPSession DialWithOptions(const char *ip, const char *port, size_t dataShards, size_t parityShards,size_t nodelay,size_t interval,size_t resend ,size_t nc,size_t sndwnd,size_t rcvwnd,size_t mtu,size_t iptos)
+CPPUDPSession DialWithOptions(const char *ip, const char *port, size_t dataShards, size_t parityShards,size_t nodelay,size_t interval,size_t resend ,size_t nc,size_t sndwnd,size_t rcvwnd,size_t mtu,size_t iptos,CPPBlockCrypt block)
 {
-    
-    UDPSession *sess  =   UDPSession::DialWithOptions(ip, port, dataShards,parityShards);
+    BlockCrypt *b = (BlockCrypt *)block;
+    UDPSession *sess  =   UDPSession::DialWithOptions(ip, port, dataShards,parityShards,b);
     sess->NoDelay(nodelay, interval, resend, nc);
     sess->WndSize(sndwnd, rcvwnd);
     sess->SetMtu(mtu);

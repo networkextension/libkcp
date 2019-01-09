@@ -18,6 +18,25 @@
 
 @end
 
+void dump(char *tag,  char *text, size_t len)
+{
+
+    int i;
+    printf("%s: \n", tag);
+    for (i = 0; i < len; i++){
+        if ((i % 16) == 0 && i != 0){
+            printf("\n");
+        }
+        if ((i % 4) == 0 && ((i%16) != 0)){
+            printf(" ");
+            
+        }
+        printf("%02x", (uint8_t)text[i]);
+        
+        
+    }
+    printf("\n");
+}
 @implementation ViewController
 {
     NSDate *last;
@@ -30,7 +49,7 @@
     
     [super viewDidLoad];
 //    self.dispatchqueue = dispatch_queue_create("test", NULL);
-//    [self testCrypto];
+    [self testCrypto];
 //    [self testSodium];
     tqueue  = dispatch_queue_create("test.yarshure", DISPATCH_QUEUE_SERIAL);
     // Do any additional setup after loading the view, typically from a nib.
@@ -84,32 +103,67 @@
     //NSData *s = [@"0123456789ABCDEF0123456789ABCDEF" dataUsingEncoding:NSUTF8StringEncoding];
 }
 - (void)testCrypto{
-    NSData *s = [@"0123456789ABCDEF0123456789ABCDEF" dataUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"org %@",s);
-    Crypt *block = [[Crypt alloc] initWithKey:s crypto:@"aes"];  //blockWith(s.bytes, "aes");
-    size_t outlen = 0;
-    [block encrypt:s] ;//encrypt(s.bytes, 32, &outlen);
-    //NSData *outData = [NSData dataWithBytes:outbuffer length:outlen];
-    NSLog(@"en %@",s);
     
-    [block decrypt:s];
-    NSLog(@"de %@",s);
-    [self testB];
+    NSData *d= [[NSData alloc] initWithBase64EncodedString:@"zY3wjDNaIsMfxg0gQKZ5yPr4NWqYrngoMPeTmG5ZPlq6Xqf/2cQpbA==" options:0];
+    NSData *s = [@"0123456789ABCDEF0123456789ABCDEF" dataUsingEncoding:NSUTF8StringEncoding];//
+    NSLog(@"key %@",s);
+//    Crypt *block = [[Crypt alloc] initWithKey:s crypto:@"aes"];  //blockWith(s.bytes, "aes");
+//
+//    NSData *cipher = [@"1234567890123456789012345678901234567890" dataUsingEncoding:NSUTF8StringEncoding];
+    
+//    for (int i = 1; i< 40 ; i++) {
+//        Crypt *block = [[Crypt alloc] initWithKey:s crypto:@"aes"];  //blockWith(s.bytes, "aes");
+//
+//        NSData *cipher = [@"1234567890123456789012345678901234567890" dataUsingEncoding:NSUTF8StringEncoding];
+//        NSMutableData *mcipher = [cipher subdataWithRange:NSMakeRange(0, i)].mutableCopy;
+//        NSData *outData =[block encrypt:mcipher];
+//        //block->encrypt((void *)mcipher.bytes, i, &outlen);
+//        // NSData *outData = [NSData dataWithBytes:s.bytes  length:outlen];
+//        //NSLog(@"enc result idx:%d %@",i,outData);
+//        dump("enc result ", (char*)outData.bytes, i);
+//
+//    }
+    
+//    NSData *outData = [block encrypt:cipher] ;//encrypt(s.bytes, 32, &outlen);
+//    //NSData *outData = [NSData dataWithBytes:outbuffer length:outlen];
+//    //cd8df08c335a22c31fc60d2040a679c8faf8356a98ae782830f793986e593e5aba5ea7ffd9c4296c
+//    NSLog(@"en %@",outData);
+//    NSLog(@"org: %@",d);
+//    if ([outData isEqualToData:d]){
+//        NSLog(@"enc ok");
+//    }
+//    NSData *r =  [block decrypt:outData];
+//    NSLog(@"result: %@",r);
+//
+    [self testB:d];
     
 }
--(void)testB{
+-(void)testB:(NSData *)d{
     NSData *s = [@"0123456789ABCDEF0123456789ABCDEF" dataUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"org %@",s);
     BlockCrypt *block =  BlockCrypt::blockWith(s.bytes, "aes"); //blockWith(s.bytes, "aes");
-    size_t outlen = 0;
-    block->encrypt((void *)s.bytes, 32, &outlen);
-    NSData *outData = [NSData dataWithBytes:s.bytes  length:outlen];
-     NSLog(@"en %@",s);
+    NSData *cipher = [@"1234567890123456789012345678901234567890" dataUsingEncoding:NSUTF8StringEncoding];
     
-    block->decrypt((void*)s.bytes, s.length, &outlen);
+    size_t outlen=0;
+    for (int i = 1; i< 40 ; i++) {
+        
+        
+        NSMutableData *mcipher = [cipher subdataWithRange:NSMakeRange(0, i)].mutableCopy;
+        
+        block->encrypt((void *)mcipher.bytes, i, &outlen);
+        // NSData *outData = [NSData dataWithBytes:s.bytes  length:outlen];
+        //NSLog(@"enc result idx:%d %@",i,mcipher);
+        
+        dump("enc result ", (char*)mcipher.bytes, i);
+        block->decrypt((void *)mcipher.bytes, i, &outlen);
+        dump("dec result ", (char*)mcipher.bytes, i);
+    }
    
-    NSLog(@"en %@",s);
-    free(block);
+//
+//    block->decrypt((void*)mcipher.bytes, mcipher.length, &outlen);
+//
+//    NSLog(@"dec %@",mcipher);
+//    free(block);
 
 }
 - (IBAction)go:(id)sender {
