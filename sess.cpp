@@ -492,7 +492,9 @@ UDPSession::output(const void *buffer, size_t length) {
     dump((char*)"UDPSession write socket", (byte *)buffer, length);
     if (__builtin_available(iOS 12,macOS 10.14, *)) {
         //send error check
-        this->send_loop(this->outbound_connection, dispatch_data_create(buffer,length,nil,DISPATCH_DATA_DESTRUCTOR_DEFAULT));
+        dispatch_data_t data =  dispatch_data_create(buffer,length,nil,DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+        this->send_loop(this->outbound_connection, data);
+        dispatch_release(data);
         return length;
     }else {
         
