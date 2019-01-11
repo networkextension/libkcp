@@ -666,13 +666,7 @@ UDPSession::receive_loop()
                 
                 if (is_complete) {
                     
-                    long s, u;
-                    IUINT64 value;
-                    struct timeval time;
-                    gettimeofday(&time, NULL);
-                    _itimeofday(&s, &u);
-                    value = ((IUINT64) s) * 1000 + (u / 1000);
-                    this->NWUpdate(value & 0xfffffffful);
+                    
                     // this->buffer_used = 0 ;
                 }else {
                     debug_print("is_complete false \n");
@@ -695,65 +689,76 @@ UDPSession::receive_loop()
                     
                     
                     //change by abigt
-                    bool dataValid = false;
                     
-                    size_t n = dispatch_data_get_size(content);
-                    debug_print("current read complete new data:%ld\n",n);
+                    
+                    size_t total = dispatch_data_get_size(content);
+                    debug_print("current read complete new data:%ld\n",total);
                     __block size_t buffer_used = 0;
                     dispatch_data_apply(content, ^bool(dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
-                        fprintf(stderr, "region with offset %zu, size %zu\n", offset, size);
-                        memcpy(m_buf+buffer_used, (char*)buffer + offset, size);
+                        //fprintf(stderr, "region with offset %zu, size %zu\n", offset, size);
+                        bool dataValid = false;
+                        size_t n = size;
+                        //memcpy(m_buf+buffer_used, (char*)buffer + offset, size);
+                        memcpy(m_buf, (char*)buffer + offset, size);
+
+                        fprintf(stderr, "totail recv %zu\n", n);
+                        dump((char*)"UDP Update", m_buf, n);
+                        size_t outlen = n;
+                        char *out = (char *)m_buf;
+                        
+                        
+                        //outlen -= nonceSize;
+                        out += nonceSize;
+                        uint32_t sum = 0;
+                        if (block != NULL) {
+                            
+                            block->decrypt(m_buf, n, &outlen);
+                            dump((char*)"UDP Update dec", m_buf, n);
+                            memcpy(&sum, (uint8_t *)out, sizeof(uint32_t));
+                            out += crcSize;
+                            int32_t checksum = crc32_kr(0,(uint8_t *)out, n-cryptHeaderSize);
+                            if (checksum == sum){
+                                dataValid = true;
+                                
+                            }
+                        }else {
+                            //dump((char*)"check sum", out, n - (size_t)nonceSize);
+                            memcpy(&sum, (uint8_t *)out, sizeof(uint32_t));
+                            out += crcSize;
+                            int32_t checksum = crc32_kr(0,(uint8_t *)out, n - cryptHeaderSize);
+                            if (checksum == sum){
+                                dataValid = true;
+                            }
+                        }
+                        
+                        if (dataValid == true) {
+                            memmove(m_buf, m_buf + cryptHeaderSize, n-cryptHeaderSize);
+                            
+                            KcpInPut( n-cryptHeaderSize);
+                            char *buf = (char *) malloc(4096);
+                            memset(buf, 0, 4096);
+                            ssize_t nn = 0;
+                            nn = this->Read(buf, 4096);
+                            if(nn > 0 && this->didRecv != nil){
+                                this->didRecv(buf,nn);
+                            }else {
+                                debug_print("no date recv!\n");
+                            }
+                            free(buf);
+                        }else {
+                            fprintf(stderr," dataValid failure\n");
+                        }
+                        
+                        long s, u;
+                        IUINT64 value;
+                        struct timeval time;
+                        gettimeofday(&time, NULL);
+                        _itimeofday(&s, &u);
+                        value = ((IUINT64) s) * 1000 + (u / 1000);
+                        this->NWUpdate(value & 0xfffffffful);
                         buffer_used += size;
                         return true;
                     });
-
-                     dump((char*)"UDP Update", m_buf, n);
-                    size_t outlen = n;
-                    char *out = (char *)m_buf;
-
-
-                    //outlen -= nonceSize;
-                    out += nonceSize;
-                    uint32_t sum = 0;
-                    if (block != NULL) {
-                        
-                        block->decrypt(m_buf, n, &outlen);
-                        dump((char*)"UDP Update dec", m_buf, n);
-                        memcpy(&sum, (uint8_t *)out, sizeof(uint32_t));
-                        out += crcSize;
-                        int32_t checksum = crc32_kr(0,(uint8_t *)out, n-cryptHeaderSize);
-                        if (checksum == sum){
-                            dataValid = true;
-                            
-                        }
-                    }else {
-                        //dump((char*)"check sum", out, n - (size_t)nonceSize);
-                        memcpy(&sum, (uint8_t *)out, sizeof(uint32_t));
-                        out += crcSize;
-                        int32_t checksum = crc32_kr(0,(uint8_t *)out, n - cryptHeaderSize);
-                        if (checksum == sum){
-                            dataValid = true;
-                        }
-                    }
-                    
-                    if (dataValid == true) {
-                        memmove(m_buf, m_buf + cryptHeaderSize, n-cryptHeaderSize);
-                        
-                        KcpInPut( n-cryptHeaderSize);
-                        char *buf = (char *) malloc(4096);
-                        memset(buf, 0, 4096);
-                        ssize_t nn = 0;
-                        nn = this->Read(buf, 4096);
-                        if(nn > 0 && this->didRecv != nil){
-                            this->didRecv(buf,nn);
-                        }else {
-                            debug_print("no date recv!\n");
-                        }
-                        free(buf);
-                    }else {
-                        fprintf(stderr," dataValid failure\n");
-                    }
-                    
                     
                    
                     
