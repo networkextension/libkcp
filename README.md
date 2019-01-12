@@ -43,7 +43,8 @@ $go run kcpserver.go
 compile and run libkcp(Best with CLion), and watch output.      
 
 ## ***Caveats***
-1. Packet level encryption  use CommonCrypto, dose not pass test,need test and debug
+1. Packet level encryption  use CommonCrypto
+2. sometime maybe hang when download big file .
    
 ## ***Troubleshooting***
 1. C++11 is required for compiling.
