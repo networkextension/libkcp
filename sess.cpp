@@ -22,7 +22,7 @@ bool g_use_udp = true;        // Use UDP instead of TCP
 bool g_verbose = false;        // Verbose
 int g_family = AF_UNSPEC;     // Required address family
 
-dispatch_queue_t q = dispatch_queue_create("nw.socket.queue",NULL);
+dispatch_queue_t q = NULL; //dispatch_queue_create("nw.socket.queue",NULL);
 #define NWCAT_BONJOUR_SERVICE_TCP_TYPE "_nwcat._tcp"
 #define NWCAT_BONJOUR_SERVICE_UDP_TYPE "_nwcat._udp"
 #define NWCAT_BONJOUR_SERVICE_DOMAIN "local"
@@ -118,7 +118,7 @@ UDPSession::DialWithOptions(const char *ip, const char *port, size_t dataShards,
             err(1, NULL);
         }
         sess = UDPSession::createSession(connection);
-        sess->start_connection(connection);
+        //sess->start_connection(connection);
         //
         
     }else {
@@ -134,7 +134,7 @@ UDPSession::DialWithOptions(const char *ip, const char *port, size_t dataShards,
     
 
     if (dataShards > 0 && parityShards > 0) {
-        sess->fec = FEC::New(rxFECMulti * (dataShards + parityShards), dataShards, parityShards);
+        sess->fec = FEC::New((int)(rxFECMulti * (dataShards + parityShards)), (int)dataShards, (int)parityShards);
         sess->shards.resize(dataShards + parityShards, nullptr);
         sess->dataShards = dataShards;
         sess->parityShards = parityShards;
@@ -225,15 +225,11 @@ UDPSession::Update(uint32_t current) noexcept {
             //change by abigt
             bool dataValid = false;
             size_t outlen = n;
-            //size_t orgsize = n;
             char *out = (char *)m_buf;
-            //outlen -= nonceSize;
             out += nonceSize;
             uint32_t sum = 0;
             if (block != NULL) {
-                
                 block->decrypt(m_buf, n, &outlen);
-                
                 memcpy(&sum, (uint8_t *)out, sizeof(uint32_t));
                 out += crcSize;
                 int32_t checksum = crc32_kr(0,(uint8_t *)out, n-cryptHeaderSize);
@@ -437,7 +433,7 @@ UDPSession::out_wrapper(const char *buf, int len, struct IKCPCB *, void *user) {
         if (block != NULL ) {
             dump((char*)"UDPSession  packet", sess->m_buf, (size_t)len + 20 +8);
             block->encrypt(sess->m_buf, len + fecHeaderSizePlus2 + cryptHeaderSize, &outlen);
-            debug_print("len:%ld outlen:%ld",(size_t)len + 20 +8,outlen);
+            debug_print("len:%ld outlen:%ld\n",(size_t)len + 20 +8,outlen);
             sess->output(sess->m_buf, outlen);
         }else {
             sess->output(sess->m_buf, len + fecHeaderSizePlus2 + cryptHeaderSize);
@@ -493,7 +489,7 @@ UDPSession::output(const void *buffer, size_t length) {
     if (__builtin_available(iOS 12,macOS 10.14, *)) {
         //send error check
         dispatch_data_t data =  dispatch_data_create(buffer,length,nil,DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-        this->send_loop(this->outbound_connection, data);
+        this->nwsend(this->outbound_connection, data);
         dispatch_release(data);
         return length;
     }else {
@@ -582,11 +578,12 @@ UDPSession::create_outbound_connection(const char *name, const char *port)
     
     
 }
-void UDPSession::start_connection(nw_connection_t connection)
+void UDPSession::start_connection(nw_connection_t connection,dispatch_queue_t kcptunqueue)
 {
      if (__builtin_available(iOS 12, macOS 10.14,*)) {
-         nw_connection_set_queue(connection,q);
-         
+         //set callback queue
+         nw_connection_set_queue(connection,kcptunqueue);
+         q = kcptunqueue;
          nw_retain(connection); // Hold a reference until cancelled
          nw_connection_set_state_changed_handler(connection, ^(nw_connection_state_t state, nw_error_t error) {
              nw_endpoint_t remote = nw_connection_copy_endpoint(connection);
@@ -657,7 +654,7 @@ UDPSession::receive_loop()
                     
                     context != NULL && nw_content_context_get_is_final(context)) {
                     CFRelease(context);
-                    exit(0);
+                    //should call did connect and reconnect
                 }
                 
                 // If there was no error in receiving, request more data
@@ -683,37 +680,28 @@ UDPSession::receive_loop()
             
             if (content != NULL) {
                 // If there is content, write it to stdout asynchronously
-                schedule_next_receive = Block_copy(schedule_next_receive);
+               schedule_next_receive = Block_copy(schedule_next_receive);
                 
                 if (is_complete) {
-                    
-                    
-                    //change by abigt
-                    
-                    
                     size_t total = dispatch_data_get_size(content);
                     debug_print("current read complete new data:%ld\n",total);
-                    __block size_t buffer_used = 0;
+                    
                     dispatch_data_apply(content, ^bool(dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
-                        //fprintf(stderr, "region with offset %zu, size %zu\n", offset, size);
                         bool dataValid = false;
                         size_t n = size;
-                        //memcpy(m_buf+buffer_used, (char*)buffer + offset, size);
                         memcpy(m_buf, (char*)buffer + offset, size);
 
-                        fprintf(stderr, "totail recv %zu\n", n);
-                        dump((char*)"UDP Update", m_buf, n);
+                        fprintf(stderr, "current recv %zu\n", n);
+                        //dump((char*)"UDP Update", m_buf, n);
                         size_t outlen = n;
+                       
                         char *out = (char *)m_buf;
-                        
-                        
-                        //outlen -= nonceSize;
                         out += nonceSize;
                         uint32_t sum = 0;
                         if (block != NULL) {
                             
                             block->decrypt(m_buf, n, &outlen);
-                            dump((char*)"UDP Update dec", m_buf, n);
+                            //dump((char*)"UDP Update dec", m_buf, n);
                             memcpy(&sum, (uint8_t *)out, sizeof(uint32_t));
                             out += crcSize;
                             int32_t checksum = crc32_kr(0,(uint8_t *)out, n-cryptHeaderSize);
@@ -730,22 +718,15 @@ UDPSession::receive_loop()
                                 dataValid = true;
                             }
                         }
-                        
+                        //dump((char*)"UDP Update dec decrypt", m_buf_ptr, n);
                         if (dataValid == true) {
                             memmove(m_buf, m_buf + cryptHeaderSize, n-cryptHeaderSize);
                             
                             KcpInPut( n-cryptHeaderSize);
-                            char *buf = (char *) malloc(4096);
-                            memset(buf, 0, 4096);
-                            ssize_t nn = 0;
-                            nn = this->Read(buf, 4096);
-                            if(nn > 0 && this->didRecv != nil){
-                                this->didRecv(buf,nn);
-                            }else {
-                                debug_print("no date recv!\n");
-                            }
-                            free(buf);
+                            //Read
+                           
                         }else {
+                            dump((char*)"UDP Update dec origin", (byte*)((char*)buffer + offset), (int)size);
                             fprintf(stderr," dataValid failure\n");
                         }
                         
@@ -756,12 +737,11 @@ UDPSession::receive_loop()
                         _itimeofday(&s, &u);
                         value = ((IUINT64) s) * 1000 + (u / 1000);
                         this->NWUpdate(value & 0xfffffffful);
-                        buffer_used += size;
+                        
+                        
+                        
                         return true;
                     });
-                    
-                   
-                    
                 }else {
                     //don't go here
                     fprintf(stderr," don't go here\n");
@@ -770,15 +750,33 @@ UDPSession::receive_loop()
 //                    this->buffer_used += n;
                 }
                 
+                char *buf = (char *) malloc(4096);
+                memset(buf, 0, 4096);
+                ssize_t nn = 0;
+                nn = this->Read(buf, 4096);
+                while (nn > 0 ) {
+                    
+                    if(this->didRecv != nil){
+                        debug_print("did recv date recv! %lu\n",nn);
+                        this->didRecv(buf,nn);
+                        
+                        nn = this->Read(buf, 4096);
+                        
+                    }else {
+                        debug_print("no date recv!\n");
+                    }
+                    
+                }
+                free(buf);
+         
                 dispatch_async( q, ^{
-                   // Block_retain(schedule_next_receive);
+                    //Block_retain(schedule_next_receive);
                     schedule_next_receive();
                     Block_release(schedule_next_receive);
                 });
+                //schedule_next_receive();
             } else {
                 // Content was NULL, so directly schedule the next receive
-                //update kcp
-                
                 schedule_next_receive();
             }
         });
@@ -790,7 +788,7 @@ UDPSession::receive_loop()
  * Start reading from stdin on a dispatch source, and send any bytes on the given connection.
  */
 void
-UDPSession::send_loop(nw_connection_t connection, dispatch_data_t _Nonnull write_data){
+UDPSession::nwsend(nw_connection_t connection, dispatch_data_t _Nonnull write_data){
     // Every send is marked as complete. This has no effect with the default message context for TCP,
     // but is required for UDP to indicate the end of a packet.
     debug_print("nw send data!\n");
@@ -812,11 +810,11 @@ CPPUDPSession DialWithOptions(const char *ip, const char *port, size_t dataShard
 {
     BlockCrypt *b = (BlockCrypt *)block;
     UDPSession *sess  =   UDPSession::DialWithOptions(ip, port, dataShards,parityShards,b);
-    sess->NoDelay(nodelay, interval, resend, nc);
-    sess->WndSize(sndwnd, rcvwnd);
-    sess->SetMtu(mtu);
+    sess->NoDelay((int)nodelay, (int)interval, (int)resend, (int)nc);
+    sess->WndSize((int)sndwnd,(int) rcvwnd);
+    sess->SetMtu((int)mtu);
     sess->SetStreamMode(true);
-    sess->SetDSCP(iptos);
+    sess->SetDSCP((int)iptos);
     return (CPPUDPSession)sess;
 }
 void NWUpdate(CPPUDPSession sess)
@@ -833,10 +831,15 @@ void NWUpdate(CPPUDPSession sess)
 ssize_t Write(CPPUDPSession sess,const char *buf, size_t sz)
 {
     UDPSession *ss = (UDPSession *)sess;
-    return  ss->Write(buf, sz);
-    
+    size_t size =   ss->Write(buf, sz);
+    NWUpdate(sess);
+    return size;
 }
 void start_send_receive_loop(CPPUDPSession sess,recvBlock didRecv){
     UDPSession *ss = (UDPSession *)sess;
     ss->start_send_receive_loop(didRecv);
+}
+void start_connection(CPPUDPSession sess,dispatch_queue_t kcptunqueue){
+    UDPSession *ss = (UDPSession *)sess;
+    ss->start_connection(ss->outbound_connection, kcptunqueue);
 }

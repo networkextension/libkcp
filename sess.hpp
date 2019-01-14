@@ -8,14 +8,17 @@
 #include <Network/Network.h>
 #include <err.h>
 #import "BlockCrypt.h"
+typedef void (^socketReady)();
+typedef void (^socketCanceled)();
 typedef void (^recvBlock)(char* buffer,size_t len);
 void
 dump(char *tag, char *text, int len);
+
 class UDPSession  {
 private:
     int m_sockfd{0};
     //size_t buffer_used;
-    nw_connection_t outbound_connection = NULL;
+    
     ikcpcb *m_kcp{nullptr};
     byte m_buf[2048];
     byte m_streambuf[65535];
@@ -30,7 +33,7 @@ private:
  
 public:
     UDPSession(const UDPSession &) = delete;
-
+    nw_connection_t outbound_connection = NULL;
     UDPSession &operator=(const UDPSession &) = delete;
 
     // Dial connects to the remote server and returns UDPSession.
@@ -74,6 +77,7 @@ public:
     inline int SetMtu(int mtu) { return ikcp_setmtu(m_kcp, mtu); }
     void receive_loop();
     void start_send_receive_loop(recvBlock didRecv);
+     void start_connection(nw_connection_t connection,dispatch_queue_t kcptunqueue);
 private:
     UDPSession() = default;
 
@@ -92,9 +96,9 @@ private:
     static UDPSession *createSession(nw_connection_t sockfd);
     //new
     static nw_connection_t create_outbound_connection(const char *, const char *);
-    void start_connection(nw_connection_t connection);
+   
     
-    void send_loop(nw_connection_t connection,dispatch_data_t _Nonnull read_data);
+    void nwsend(nw_connection_t connection,dispatch_data_t _Nonnull read_data);
    
 };
 

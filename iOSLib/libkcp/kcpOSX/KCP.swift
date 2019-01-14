@@ -15,6 +15,7 @@ open class KCP {
     
     private let sess : CPPUDPSession
     private var queue:DispatchQueue
+    private var socketqueue:DispatchQueue = DispatchQueue.init(label: "com.yarshure.kcp")
 //CPPUDPSession DialWithOptions(const char *ip, const char *port, size_t dataShards, size_t parityShards,size_t nodelay,size_t interval,size_t resend ,size_t nc,size_t sndwnd,size_t rcvwnd,size_t mtu,size_t iptos);
     public init(config:KcpConfig,ipaddr:String,port:String,queue: DispatchQueue) {
         self.queue = queue
@@ -36,7 +37,7 @@ open class KCP {
             sess = DialWithOptions(ipaddr, port, config.dataShards, config.parityShards,config.nodelay,config.interval,config.resend,config.nc,config.sndwnd,config.rcvwnd,config.mtu,config.iptos,block)
             
         }
-        
+        start_connection(sess,socketqueue)
         
     }
 //    public init() {
@@ -52,7 +53,10 @@ open class KCP {
         start_send_receive_loop(sess) { (buff, size) in
             guard let buff = buff else {return}
             let data = Data.init(bytes: buff, count: size)
-            recv(self,data)
+            self.socketqueue.async {
+                recv(self,data)
+            }
+            
         }
     }
     public func input(data:Data){
@@ -60,12 +64,12 @@ open class KCP {
         self.queue.async {
             //sess
             let size = data.count
-            data.withUnsafeBytes { ptr  in
+            _ = data.withUnsafeBytes { ptr  in
                 //let rawPtr = UnsafeRawPointer(u8Ptr)
                 Write(self.sess, ptr, size)
                 // ... use `rawPtr` ...
             }
-            NWUpdate(self.sess)
+            
         }
     }
     public func useCell() ->Bool {

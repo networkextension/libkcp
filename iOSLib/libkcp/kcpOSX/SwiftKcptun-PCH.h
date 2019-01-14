@@ -2,8 +2,8 @@
 //  SwiftCpp.h
 //  SwiftCppKit
 //
-//  Created by 李修冶 on 2017/6/4.
-//  Copyright © 2017年 李修冶. All rights reserved.
+//  Created by yarshure on 2019/1/1.
+//  Copyright © 2017年 yarshure. All rights reserved.
 //
 
 #ifndef SwiftCpp_PCH_h

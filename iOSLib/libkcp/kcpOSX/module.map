@@ -1,4 +1,4 @@
 module SwiftCppExtern {
-    header "SwiftCpp-PCH.h"
+    header "SwiftKcptun-PCH.h"
     export *
 }

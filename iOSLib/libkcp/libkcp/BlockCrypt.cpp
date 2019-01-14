@@ -19,7 +19,7 @@ BlockCrypt::blockWith(const void* key,const char* crypto){
     BlockCrypt *block = new (BlockCrypt);
     
     
-    const void *ivPtr = iv;
+    //const void *ivPtr = iv;
     
     
     if (strcmp(crypto,"aes") == 0){
@@ -35,30 +35,8 @@ BlockCrypt::blockWith(const void* key,const char* crypto){
     void *newKey = malloc(block->keyLen);
     memcpy(newKey, key, block->keyLen);
     block->key = newKey;
-    printf("enc keylen:%d,key:%s",block->keyLen, key);
-//    CCCryptorStatus st = CCCryptorCreateWithMode(
-//                            kCCEncrypt,
-//                            kCCModeCFB,
-//                            kCCAlgorithmAES,
-//                            ccNoPadding,
-//                            ivPtr, key, block->keyLen,
-//                            NULL, 0, 0, 0,
-//                            &(block->send_ctx));
-//
-//    if (st != kCCSuccess){
-//        printf("send_ctx create error\n");
-//    }
-//    st =  CCCryptorCreateWithMode(
-//                                  kCCDecrypt,
-//                                  kCCModeCFB,
-//                                  kCCAlgorithmAES,
-//                                  ccNoPadding,
-//                                  ivPtr, key, block->keyLen,
-//                                  NULL, 0, 0, 0,
-//                                  &(block->recv_ctx));
-//    if (st != kCCSuccess){
-//        printf("recv_ctx create error \n");
-//    }
+    //printf("enc keylen:%lu,key:%s",block->keyLen, key);
+
     
     return block;
     
