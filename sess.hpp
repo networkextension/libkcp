@@ -82,7 +82,7 @@ private:
     UDPSession() = default;
 
     ~UDPSession() = default;
-
+    void readKCP();
     // DialIPv6 is the ipv6 version of Dial.
     static UDPSession *dialIPv6(const char *ip, uint16_t port);
 

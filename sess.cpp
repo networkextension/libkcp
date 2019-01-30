@@ -22,7 +22,7 @@ bool g_use_udp = true;        // Use UDP instead of TCP
 bool g_verbose = false;        // Verbose
 int g_family = AF_UNSPEC;     // Required address family
 
-dispatch_queue_t q = NULL; //dispatch_queue_create("nw.socket.queue",NULL);
+dispatch_queue_t dispatchQueue = NULL;//dispatch_queue_create("nw.socket.queue",NULL);
 #define NWCAT_BONJOUR_SERVICE_TCP_TYPE "_nwcat._tcp"
 #define NWCAT_BONJOUR_SERVICE_UDP_TYPE "_nwcat._udp"
 #define NWCAT_BONJOUR_SERVICE_DOMAIN "local"
@@ -49,7 +49,7 @@ const size_t cryptHeaderSize = nonceSize + crcSize;
 
 // FEC keeps rxFECMulti* (dataShard+parityShard) ordered packets in memory
 const size_t rxFECMulti = 3;
-#define KCP_DEBUG 0
+#define KCP_DEBUG 1
 void
 dump(char *tag,  byte *text, size_t len)
 {
@@ -266,6 +266,16 @@ UDPSession::Update(uint32_t current) noexcept {
 }
 void
 UDPSession::NWUpdate(uint32_t current) noexcept {
+    if (current == 0) {
+        long s, u;
+        IUINT64 value;
+        struct timeval time;
+        gettimeofday(&time, NULL);
+        _itimeofday(&s, &u);
+        value = ((IUINT64) s) * 1000 + (u / 1000);
+        current = value & 0xfffffffful;
+    }
+    //equal ikcp_update ?
     m_kcp->current = current;
     ikcp_flush(m_kcp);
 }
@@ -315,6 +325,11 @@ UDPSession::Destroy(UDPSession *sess) {
     if (nullptr == sess) return;
     if (0 != sess->m_sockfd) { close(sess->m_sockfd); }
     if (nullptr != sess->m_kcp) { ikcp_release(sess->m_kcp); }
+    if (__builtin_available(iOS 12,macOS 10.14, *)) {
+        if (sess->outbound_connection != NULL){
+            nw_release(sess->outbound_connection);
+        }
+    }
     delete sess;
 }
 
@@ -506,6 +521,7 @@ UDPSession::output(const void *buffer, size_t length) {
     
     
 }
+//MARK: - nw socket
 /*
   * create_outbound_connection()
   * Returns a retained connection to a remote hostname and port.
@@ -583,7 +599,7 @@ void UDPSession::start_connection(nw_connection_t connection,dispatch_queue_t kc
      if (__builtin_available(iOS 12, macOS 10.14,*)) {
          //set callback queue
          nw_connection_set_queue(connection,kcptunqueue);
-         q = kcptunqueue;
+         dispatchQueue = kcptunqueue;
          nw_retain(connection); // Hold a reference until cancelled
          nw_connection_set_state_changed_handler(connection, ^(nw_connection_state_t state, nw_error_t error) {
              nw_endpoint_t remote = nw_connection_copy_endpoint(connection);
@@ -627,7 +643,34 @@ void UDPSession::start_send_receive_loop(recvBlock didRecv)
 {
     // Start reading from connection
     this->didRecv = Block_copy(didRecv);
+    
     this->receive_loop();
+    this->readKCP();
+}
+void UDPSession::readKCP(){
+    dispatch_async(dispatch_get_main_queue(), ^{
+        while (1) {
+            char *buf = (char *) malloc(4096);
+            memset(buf, 0, 4096);
+            ssize_t nn = 0;
+            nn = this->Read(buf, 4096);
+            
+            if(nn > 0 && this->didRecv != nil){
+                debug_print("did recv date recv! %lu\n",nn);
+                this->didRecv(buf,nn);
+                
+                //nn = this->Read(buf, 4096);
+            }else {
+                //usleep(1000);
+                usleep(1000);
+                debug_print("no date recv!\n");
+            }
+            free(buf);
+            this->NWUpdate(0);
+        }
+    });
+   
+    
 }
 /*
  * receive_loop()
@@ -638,28 +681,49 @@ void UDPSession::start_send_receive_loop(recvBlock didRecv)
 void
 UDPSession::receive_loop()
 {
+ 
+    
     nw_connection_t connection = this->outbound_connection;
     debug_print("nw start recvloop\n");
     if (__builtin_available(iOS 12, macOS 10.14,*)) {
-        nw_connection_receive(connection, 1, 2048, ^(dispatch_data_t content, nw_content_context_t context, bool is_complete, nw_error_t receive_error) {
+        nw_connection_receive(connection, 1, UINT32_MAX, ^(dispatch_data_t content, nw_content_context_t context, bool is_complete, nw_error_t receive_error) {
             if (content == NULL){
                 //socket failure
                 return ;
             }
-            CFRetain(context);
+            nw_retain(context);
             dispatch_block_t schedule_next_receive = ^{
                 // If the context is marked as complete, and is the final context,
                 // we're read-closed.
                 if (is_complete &&
                     
                     context != NULL && nw_content_context_get_is_final(context)) {
-                    CFRelease(context);
+                    nw_release(context);
                     //should call did connect and reconnect
                 }
                 
                 // If there was no error in receiving, request more data
                 
-               
+//                char *buf = (char *) malloc(4096);
+//                memset(buf, 0, 4096);
+//                ssize_t nn = 0;
+//                nn = this->Read(buf, 4096);
+//                while (nn > 0 ) {
+//                    
+//                    if(this->didRecv != nil){
+//                        debug_print("did recv date recv! %lu\n",nn);
+//                        this->didRecv(buf,nn);
+//                       
+//                        this->NWUpdate(0);
+//                        nn = this->Read(buf, 4096);
+//                        
+//                    }else {
+//                        //usleep(1000);
+//                        debug_print("no date recv!\n");
+//                    }
+//                    
+//                }
+//                free(buf);
                 
                 if (is_complete) {
                     
@@ -675,7 +739,7 @@ UDPSession::receive_loop()
                     receive_loop();
                     
                 }
-                CFRelease(context);
+                nw_release(context);
             };
             
             if (content != NULL) {
@@ -691,8 +755,8 @@ UDPSession::receive_loop()
                         size_t n = size;
                         memcpy(m_buf, (char*)buffer + offset, size);
 
-                        fprintf(stderr, "current recv %zu\n", n);
-                        //dump((char*)"UDP Update", m_buf, n);
+                        debug_print("current recv %zu\n", n);
+                        dump((char*)"recv UDP Update", m_buf, n);
                         size_t outlen = n;
                        
                         char *out = (char *)m_buf;
@@ -701,7 +765,7 @@ UDPSession::receive_loop()
                         if (block != NULL) {
                             
                             block->decrypt(m_buf, n, &outlen);
-                            //dump((char*)"UDP Update dec", m_buf, n);
+                            dump((char*)"UDP Update dec", m_buf, n);
                             memcpy(&sum, (uint8_t *)out, sizeof(uint32_t));
                             out += crcSize;
                             int32_t checksum = crc32_kr(0,(uint8_t *)out, n-cryptHeaderSize);
@@ -710,7 +774,7 @@ UDPSession::receive_loop()
                                 
                             }
                         }else {
-                            //dump((char*)"check sum", out, n - (size_t)nonceSize);
+                            
                             memcpy(&sum, (uint8_t *)out, sizeof(uint32_t));
                             out += crcSize;
                             int32_t checksum = crc32_kr(0,(uint8_t *)out, n - cryptHeaderSize);
@@ -718,7 +782,7 @@ UDPSession::receive_loop()
                                 dataValid = true;
                             }
                         }
-                        //dump((char*)"UDP Update dec decrypt", m_buf_ptr, n);
+                       
                         if (dataValid == true) {
                             memmove(m_buf, m_buf + cryptHeaderSize, n-cryptHeaderSize);
                             
@@ -726,18 +790,8 @@ UDPSession::receive_loop()
                             //Read
                            
                         }else {
-                            dump((char*)"UDP Update dec origin", (byte*)((char*)buffer + offset), (int)size);
                             fprintf(stderr," dataValid failure\n");
                         }
-                        
-                        long s, u;
-                        IUINT64 value;
-                        struct timeval time;
-                        gettimeofday(&time, NULL);
-                        _itimeofday(&s, &u);
-                        value = ((IUINT64) s) * 1000 + (u / 1000);
-                        this->NWUpdate(value & 0xfffffffful);
-                        
                         
                         
                         return true;
@@ -750,30 +804,19 @@ UDPSession::receive_loop()
 //                    this->buffer_used += n;
                 }
                 
-                char *buf = (char *) malloc(4096);
-                memset(buf, 0, 4096);
-                ssize_t nn = 0;
-                nn = this->Read(buf, 4096);
-                while (nn > 0 ) {
-                    
-                    if(this->didRecv != nil){
-                        debug_print("did recv date recv! %lu\n",nn);
-                        this->didRecv(buf,nn);
-                        
-                        nn = this->Read(buf, 4096);
-                        
-                    }else {
-                        debug_print("no date recv!\n");
-                    }
-                    
-                }
-                free(buf);
-         
-                dispatch_async( q, ^{
-                    //Block_retain(schedule_next_receive);
+                this->NWUpdate(0);
+               
+                
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 50 * NSEC_PER_MSEC);
+                dispatch_after(popTime,dispatchQueue , ^(void){
                     schedule_next_receive();
                     Block_release(schedule_next_receive);
                 });
+//                dispatch_async( dispatch_get_main_queue(), ^{
+//                    //Block_retain(schedule_next_receive);
+//                    schedule_next_receive();
+//                    Block_release(schedule_next_receive);
+//                });
                 //schedule_next_receive();
             } else {
                 // Content was NULL, so directly schedule the next receive
@@ -819,21 +862,20 @@ CPPUDPSession DialWithOptions(const char *ip, const char *port, size_t dataShard
 }
 void NWUpdate(CPPUDPSession sess)
 {
-    long s, u;
-    IUINT64 value;
-    struct timeval time;
-    gettimeofday(&time, NULL);
-    _itimeofday(&s, &u);
-    value = ((IUINT64) s) * 1000 + (u / 1000);
     UDPSession *ss = (UDPSession *)sess;
-    ss->NWUpdate(value & 0xfffffffful);
+    ss->NWUpdate(0);
 }
 ssize_t Write(CPPUDPSession sess,const char *buf, size_t sz)
 {
     UDPSession *ss = (UDPSession *)sess;
-    size_t size =   ss->Write(buf, sz);
-    NWUpdate(sess);
-    return size;
+    size_t tosend =  sz;
+    size_t sended = 0 ;
+    while (sended < tosend) {
+        size_t sendt =   ss->Write(buf+sended, sz-sended);
+        sended += sendt ;
+        ss->NWUpdate(0);
+    }
+    return sz;
 }
 void start_send_receive_loop(CPPUDPSession sess,recvBlock didRecv){
     UDPSession *ss = (UDPSession *)sess;

@@ -347,15 +347,6 @@ IUINT32 iclock() {
                 if (sess != nil) {
                     
                     
-                    @autoreleasepool {
-                        char  *ptr = (char  *)BlockCrypt::ramdonBytes(1326);
-                        
-                        size_t sendt = sess->Write(ptr, 1326);
-                        free(ptr);
-
-                    }
-                    
-                    
                     char *buf = (char *) malloc(4096);
                     
                     memset(buf, 0, 4096);

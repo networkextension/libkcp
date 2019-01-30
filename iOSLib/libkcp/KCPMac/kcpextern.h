@@ -2,12 +2,14 @@
 //  kcpextern.h
 //  libkcp
 //
-//  Created by yarshure on 8/1/2019.
+//  Created by yarshure on 30/1/2019.
 //  Copyright © 2019 Kong XiangBo. All rights reserved.
 //
 
 #ifndef kcpextern_h
 #define kcpextern_h
+
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <sys/types.h>
