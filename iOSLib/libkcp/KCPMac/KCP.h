@@ -6,8 +6,6 @@
 //  Copyright © 2019 Kong XiangBo. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
 //! Project version number for KCPMac.
 FOUNDATION_EXPORT double KCPMacVersionNumber;
 

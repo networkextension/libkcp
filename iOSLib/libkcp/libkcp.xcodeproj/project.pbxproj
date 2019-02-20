@@ -24,7 +24,6 @@
 		691A543B22016D6700C3C086 /* sess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3301EB2EEBD006A4B9D /* sess.cpp */; };
 		691A543C22016D6A00C3C086 /* ikcp.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3401EB2EF11006A4B9D /* ikcp.h */; };
 		691A543D22016D6D00C3C086 /* ikcp.c in Sources */ = {isa = PBXBuildFile; fileRef = 692AE32E1EB2EEB0006A4B9D /* ikcp.c */; };
-		691A543E22016D7100C3C086 /* kcp.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3241EB2EE59006A4B9D /* kcp.h */; };
 		691A543F22016D7400C3C086 /* fec.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3421EB2EF1C006A4B9D /* fec.h */; };
 		691A544022016D7700C3C086 /* fec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE32C1EB2EE98006A4B9D /* fec.cpp */; };
 		691A544122016D7A00C3C086 /* BlockCrypt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695165F31EBB2663008DCF66 /* BlockCrypt.cpp */; };
@@ -34,7 +33,6 @@
 		691A544622016DC300C3C086 /* kcpextern.h in Headers */ = {isa = PBXBuildFile; fileRef = 691A544522016DAB00C3C086 /* kcpextern.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		691A544722016E0500C3C086 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B917C32178587F004CC106 /* Network.framework */; };
 		691A544822016E1C00C3C086 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 693F851721ECB98D005BC560 /* Security.framework */; };
-		691A5456220171AB00C3C086 /* KCP.h in Headers */ = {isa = PBXBuildFile; fileRef = 691A542822016CE800C3C086 /* KCP.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		691A5457220171AE00C3C086 /* kcpextern.h in Headers */ = {isa = PBXBuildFile; fileRef = 691A544522016DAB00C3C086 /* kcpextern.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		691A5458220171B600C3C086 /* encoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE34E1EB2EF25006A4B9D /* encoding.h */; };
 		691A5459220171B900C3C086 /* galois_noasm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3431EB2EF1C006A4B9D /* galois_noasm.cpp */; };
@@ -52,7 +50,6 @@
 		691A5465220171DD00C3C086 /* sess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3301EB2EEBD006A4B9D /* sess.cpp */; };
 		691A5466220171E000C3C086 /* ikcp.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3401EB2EF11006A4B9D /* ikcp.h */; };
 		691A5467220171E300C3C086 /* ikcp.c in Sources */ = {isa = PBXBuildFile; fileRef = 692AE32E1EB2EEB0006A4B9D /* ikcp.c */; };
-		691A5468220171E600C3C086 /* kcp.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3241EB2EE59006A4B9D /* kcp.h */; };
 		691A5469220171E900C3C086 /* fec.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE3421EB2EF1C006A4B9D /* fec.h */; };
 		691A546A220171EB00C3C086 /* fec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE32C1EB2EE98006A4B9D /* fec.cpp */; };
 		691A546B220171EE00C3C086 /* BlockCrypt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695165F31EBB2663008DCF66 /* BlockCrypt.cpp */; };
@@ -122,6 +119,7 @@
 		69639BF61EE1AB5D00893D18 /* CRC32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6959B7451EBB7DEC00B0BC58 /* CRC32.cpp */; };
 		69639BF71EE1AB6100893D18 /* CRC32.h in Headers */ = {isa = PBXBuildFile; fileRef = 6959B7461EBB7DEC00B0BC58 /* CRC32.h */; };
 		69639BF91EE1ABA200893D18 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69639BF81EE1ABA200893D18 /* Security.framework */; };
+		698776C6221D8E5500A9A7E5 /* KCP.h in Headers */ = {isa = PBXBuildFile; fileRef = 691A542822016CE800C3C086 /* KCP.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69B917C221785876004CC106 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B917C121785876004CC106 /* Network.framework */; };
 		69B917C42178587F004CC106 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B917C32178587F004CC106 /* Network.framework */; };
 		69C757811EB2F96D00139321 /* kcp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692AE3211EB2EE59006A4B9D /* kcp.framework */; };
@@ -469,7 +467,6 @@
 				691A542E22016D4300C3C086 /* encoding.h in Headers */,
 				691A544622016DC300C3C086 /* kcpextern.h in Headers */,
 				691A544422016D8200C3C086 /* CRC32.h in Headers */,
-				691A543E22016D7100C3C086 /* kcp.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,20 +474,19 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				691A5468220171E600C3C086 /* kcp.h in Headers */,
 				691A545F220171CD00C3C086 /* inversion_tree.h in Headers */,
 				691A545D220171C700C3C086 /* galois.h in Headers */,
 				691A5463220171D800C3C086 /* reedsolomon.h in Headers */,
 				691A546E220171F900C3C086 /* CRC32.h in Headers */,
 				691A546C220171F100C3C086 /* BlockCrypt.h in Headers */,
 				691A545A220171BC00C3C086 /* galois_noasm.h in Headers */,
-				691A5456220171AB00C3C086 /* KCP.h in Headers */,
 				691A5466220171E000C3C086 /* ikcp.h in Headers */,
 				691A5458220171B600C3C086 /* encoding.h in Headers */,
 				691A5464220171DA00C3C086 /* sess.hpp in Headers */,
 				691A5469220171E900C3C086 /* fec.h in Headers */,
 				691A5461220171D200C3C086 /* matrix.h in Headers */,
 				691A5457220171AE00C3C086 /* kcpextern.h in Headers */,
+				698776C6221D8E5500A9A7E5 /* KCP.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
