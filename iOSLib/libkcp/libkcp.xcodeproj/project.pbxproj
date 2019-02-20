@@ -34,7 +34,7 @@
 		691A544622016DC300C3C086 /* kcpextern.h in Headers */ = {isa = PBXBuildFile; fileRef = 691A544522016DAB00C3C086 /* kcpextern.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		691A544722016E0500C3C086 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69B917C32178587F004CC106 /* Network.framework */; };
 		691A544822016E1C00C3C086 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 693F851721ECB98D005BC560 /* Security.framework */; };
-		691A5456220171AB00C3C086 /* KCP.h in Headers */ = {isa = PBXBuildFile; fileRef = 691A542822016CE800C3C086 /* KCP.h */; };
+		691A5456220171AB00C3C086 /* KCP.h in Headers */ = {isa = PBXBuildFile; fileRef = 691A542822016CE800C3C086 /* KCP.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		691A5457220171AE00C3C086 /* kcpextern.h in Headers */ = {isa = PBXBuildFile; fileRef = 691A544522016DAB00C3C086 /* kcpextern.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		691A5458220171B600C3C086 /* encoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 692AE34E1EB2EF25006A4B9D /* encoding.h */; };
 		691A5459220171B900C3C086 /* galois_noasm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 692AE3431EB2EF1C006A4B9D /* galois_noasm.cpp */; };
