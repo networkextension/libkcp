@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "libkcp",
+    name: "KCP",
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
-            name: "libkcp",
-            targets: ["libkcp"]),
+            name: "KCP",
+            targets: ["KCP"]),
     ],
    // cxxLanguageStandard: .cxx11,
     dependencies: [
@@ -19,6 +19,13 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
+        .target(
+            name: "KCP",
+            dependencies: ["libkcp"],
+            cSettings: [
+                .headerSearchPath("libkcp/public"),
+            ]
+            ),
         .target(
             name: "libkcp",
             dependencies: [],
