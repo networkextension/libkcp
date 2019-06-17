@@ -30,8 +30,9 @@ let package = Package(
             name: "libkcp",
             dependencies: [],
             exclude:[""],
+            publicHeadersPath:"public",
             cSettings: [
-                .headerSearchPath(""),
+                .headerSearchPath("include"),
             ],
             linkerSettings:[
                 .linkedFramework("Network", .when(platforms: [.macOS,.iOS], configuration: .debug)),
