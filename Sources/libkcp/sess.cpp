@@ -9,7 +9,7 @@
 #include <cstring>
 #include "CRC32.h"
 #include <Network/Network.h>
-#include "kcpextern.h"
+#include "libkcp.h"
 // Global Options nw
 #define AT_AVAILABLE(...) \
 _Pragma("clang diagnostic push") \
@@ -332,11 +332,14 @@ UDPSession::Destroy(UDPSession *sess) {
     if (nullptr == sess) return;
     if (0 != sess->m_sockfd) { close(sess->m_sockfd); }
     if (nullptr != sess->m_kcp) { ikcp_release(sess->m_kcp); }
-    if (AT_AVAILABLE(iOS 12,macOS 10.14, *)&& ENABLE_NETWORKFRAMEWORK) {
-        if (sess->outbound_connection != NULL){
-            nw_release(sess->outbound_connection);
+    if (ENABLE_NETWORKFRAMEWORK) {
+        if (__builtin_available(iOS 12,macOS 10.14, *)) {
+            if (sess->outbound_connection != NULL){
+                nw_release(sess->outbound_connection);
+            }
         }
     }
+    
     delete sess;
 }
 
@@ -508,23 +511,26 @@ UDPSession::out_wrapper(const char *buf, int len, struct IKCPCB *, void *user) {
 ssize_t
 UDPSession::output(const void *buffer, size_t length) {
     dump((char*)"UDPSession write socket", (byte *)buffer, length);
-    if (AT_AVAILABLE(iOS 12,macOS 10.14, *)&& ENABLE_NETWORKFRAMEWORK) {
-        //send error check
-        dispatch_data_t data =  dispatch_data_create(buffer,length,nil,DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-        this->nwsend(this->outbound_connection, data);
-        dispatch_release(data);
-        return length;
+    if (!ENABLE_NETWORKFRAMEWORK) {
+         ssize_t n = send(m_sockfd, buffer, length, 0);
+               if (n != length) {
+                   debug_print("not full send\n");
+               }
+               if (n==-1) {
+                   perror("send error fopen( \"nulltest.txt\", \"r\" )");
+               }
+               return n;
     }else {
-        
-        ssize_t n = send(m_sockfd, buffer, length, 0);
-        if (n != length) {
-            debug_print("not full send\n");
+        if (__builtin_available(iOS 12,macOS 10.14, *) ) {
+            //send error check
+            dispatch_data_t data =  dispatch_data_create(buffer,length,nil,DISPATCH_DATA_DESTRUCTOR_DEFAULT);
+            this->nwsend(this->outbound_connection, data);
+            dispatch_release(data);
+            return length;
         }
-        if (n==-1) {
-            perror("send error fopen( \"nulltest.txt\", \"r\" )");
-        }
-        return n;
     }
+    
+    
     
     
 }
@@ -539,7 +545,10 @@ UDPSession::create_outbound_connection(const char *name, const char *port)
 {
     // If we are using bonjour to connect, treat the name as a bonjour name
     // Otherwise, treat the name as a hostname
-    if (AT_AVAILABLE(iOS 12,macOS 10.14, *)&& ENABLE_NETWORKFRAMEWORK) {
+    if (!ENABLE_NETWORKFRAMEWORK) {
+        return nil;
+    }
+    if (__builtin_available(iOS 12,macOS 10.14, *)) {
         nw_endpoint_t endpoint = nw_endpoint_create_host(name, port);
         
         nw_parameters_t parameters = NULL;
@@ -606,7 +615,10 @@ UDPSession::create_outbound_connection(const char *name, const char *port)
 }
 void UDPSession::start_connection(nw_connection_t connection,dispatch_queue_t kcptunqueue)
 {
-     if (AT_AVAILABLE(iOS 12, macOS 10.14,*)&& ENABLE_NETWORKFRAMEWORK) {
+    if(!ENABLE_NETWORKFRAMEWORK) {
+        return;
+    }
+     if (__builtin_available(iOS 12, macOS 10.14,*)) {
          //set callback queue
          nw_connection_set_queue(connection,kcptunqueue);
          dispatchQueue = kcptunqueue;
@@ -692,10 +704,13 @@ void
 UDPSession::receive_loop()
 {
  
+    if (!ENABLE_NETWORKFRAMEWORK) {
+        return;
+    }
     
     nw_connection_t connection = this->outbound_connection;
     debug_print("nw start recvloop\n");
-    if (AT_AVAILABLE(iOS 12, macOS 10.14,*)&& ENABLE_NETWORKFRAMEWORK) {
+    if (__builtin_available(iOS 12, macOS 10.14,*)) {
         nw_connection_receive(connection, 1, UINT32_MAX, ^(dispatch_data_t content, nw_content_context_t context, bool is_complete, nw_error_t receive_error) {
             if (content == NULL){
                 //socket failure
@@ -845,16 +860,20 @@ UDPSession::nwsend(nw_connection_t connection, dispatch_data_t _Nonnull write_da
     // Every send is marked as complete. This has no effect with the default message context for TCP,
     // but is required for UDP to indicate the end of a packet.
     debug_print("nw send data!\n");
-    if (AT_AVAILABLE(iOS 12,macOS 10.14, *)&& ENABLE_NETWORKFRAMEWORK) {
-        nw_connection_send(connection, write_data, NW_CONNECTION_DEFAULT_MESSAGE_CONTEXT, true, ^(nw_error_t  _Nullable error) {
-            if (error != NULL) {
-                errno = nw_error_get_error_code(error);
-                warn("send error %d",errno);
-            } else {
-                //send_loop(connection);
-                debug_print("send fin\n");
-            }
-        });
+    if (ENABLE_NETWORKFRAMEWORK) {
+        if (__builtin_available(iOS 12.0, *)) {
+            nw_connection_send(connection, write_data, NW_CONNECTION_DEFAULT_MESSAGE_CONTEXT, true, ^(nw_error_t  _Nullable error) {
+                if (error != NULL) {
+                    errno = nw_error_get_error_code(error);
+                    warn("send error %d",errno);
+                } else {
+                    //send_loop(connection);
+                    debug_print("send fin\n");
+                }
+            });
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
 }

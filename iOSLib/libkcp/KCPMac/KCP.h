@@ -13,6 +13,6 @@ FOUNDATION_EXPORT double KCPMacVersionNumber;
 FOUNDATION_EXPORT const unsigned char KCPMacVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like
-#import <KCP/kcpextern.h>
+//#import <KCP/kcpextern.h>
 
 
