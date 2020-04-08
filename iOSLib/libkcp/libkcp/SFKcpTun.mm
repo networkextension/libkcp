@@ -18,7 +18,7 @@
 
 #include <ifaddrs.h>
 UDPSession *sess;
-
+#define ENABLE_NETWORKFRAMEWORK 0
 void
 itimeofday(long *sec, long *usec) {
     struct timeval time;
@@ -89,29 +89,34 @@ IUINT32 iclock() {
 -(void)startWith:(tunConnected)connectd recv:(didRecvdata)recv disConnect:(tunConnected)disConnect
     {
         __weak  SFKcpTun *weakSelf = self;
+        self.tunConnected = connectd;
         if ( self.connected )  {
             dispatch_async(self.dispatchqueue, ^{
                 weakSelf.tunConnected(weakSelf);
             });
+            //self.tunConnected(self);
         }
         
         //self.tunConnected = connectd;
         self.recvData = recv;
         self.disConnected = disConnect;
 
-        if (__builtin_available(iOS 12, macOS 10.14,*)) {
-            sess->start_send_receive_loop(^(char *buffer, size_t len) {
-                NSData *d = [NSData dataWithBytes:buffer length:len];
-                
-                dispatch_async(self.dispatchqueue, ^{
-                    weakSelf.recvData(weakSelf, d);
-                    
-                });
-                
-            });
+        if (ENABLE_NETWORKFRAMEWORK){
+            if (__builtin_available(iOS 12, macOS 10.14,*) ) {
+                       sess->start_send_receive_loop(^(char *buffer, size_t len) {
+                           NSData *d = [NSData dataWithBytes:buffer length:len];
+                           
+                           dispatch_async(weakSelf.dispatchqueue, ^{
+                               weakSelf.recvData(weakSelf, d);
+                               
+                           });
+                           
+                       });
+                   }
         }else {
-             [self checkLoop];
+            [self checkLoop];
         }
+       
     }
 -(void)restartUDPSessionWithIpaddr:(NSString*)ip port:(NSString*)port
 {

@@ -18,19 +18,16 @@ _Pragma("clang diagnostic ignored \"-Wunguarded-availability-new\"") \
 __builtin_available(__VA_ARGS__) \
 _Pragma("clang diagnostic pop")
 
-char *g_psk = NULL;            // TLS PSK
+
 char *g_local_port = NULL;    // Local port flag
 char *g_local_addr = NULL;    // Source Address
-bool g_use_bonjour = false;    // Use Bonjour rather than hostnames
-bool g_detached = true;    // Ignore stdin
-bool g_listener = false;    // Create a listener
-bool g_use_tls = false;        // Use TLS or DTLS
+
 bool g_use_udp = true;        // Use UDP instead of TCP
 bool g_verbose = false;        // Verbose
 int g_family = AF_UNSPEC;     // Required address family
 
 dispatch_queue_t dispatchQueue = NULL;//dispatch_queue_create("nw.socket.queue",NULL);
-#define NWCAT_BONJOUR_SERVICE_TCP_TYPE "_nwcat._tcp"
+
 #define NWCAT_BONJOUR_SERVICE_UDP_TYPE "_nwcat._udp"
 #define NWCAT_BONJOUR_SERVICE_DOMAIN "local"
 #define ENABLE_NETWORKFRAMEWORK 0
@@ -553,23 +550,7 @@ UDPSession::create_outbound_connection(const char *name, const char *port)
         
         nw_parameters_t parameters = NULL;
         nw_parameters_configure_protocol_block_t configure_tls = NW_PARAMETERS_DISABLE_PROTOCOL;
-        if (g_use_tls) {
-            if (g_psk) {
-                configure_tls = ^(nw_protocol_options_t tls_options) {
-                    sec_protocol_options_t sec_options = nw_tls_copy_sec_protocol_options(tls_options);
-                    dispatch_data_t psk = dispatch_data_create(g_psk, strlen(g_psk), nil, DISPATCH_DATA_DESTRUCTOR_DEFAULT);
-                    sec_protocol_options_add_pre_shared_key(sec_options, psk, psk);
-                    dispatch_release(psk);
-#if !TARGET_OS_UIKITFORMAC
-                    sec_protocol_options_add_tls_ciphersuite(sec_options, (SSLCipherSuite)TLS_PSK_WITH_AES_128_GCM_SHA256);
-#endif
 
-                    nw_release(sec_options);
-                };
-            } else {
-                configure_tls = NW_PARAMETERS_DEFAULT_CONFIGURATION;
-            }
-        }
         
         if (g_use_udp) {
             // Create a UDP connection
