@@ -6,7 +6,7 @@
 //  Copyright © 2017 Kong XiangBo. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+//#import <Cocoa/Cocoa.h>
 
 //! Project version number for kcpOSX.
 FOUNDATION_EXPORT double kcpOSXVersionNumber;

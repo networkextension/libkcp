@@ -24,6 +24,7 @@
 		6954574C243DB00A0053E2D1 /* galois_table.c in Sources */ = {isa = PBXBuildFile; fileRef = 69B75126243DA48000678126 /* galois_table.c */; };
 		6954574D243DB0310053E2D1 /* galois_table.c in Sources */ = {isa = PBXBuildFile; fileRef = 69B75126243DA48000678126 /* galois_table.c */; };
 		6954574E243DB03A0053E2D1 /* galois_noasm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69B75127243DA48000678126 /* galois_noasm.cpp */; };
+		69545750243E0B8A0053E2D1 /* kcp.h in Headers */ = {isa = PBXBuildFile; fileRef = 6954574F243E0B6B0053E2D1 /* kcp.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6959B74A1EBB8B0C00B0BC58 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6959B7491EBB8B0C00B0BC58 /* Security.framework */; };
 		69639BD91EE1AAC100893D18 /* kcp.h in Headers */ = {isa = PBXBuildFile; fileRef = 69639BD71EE1AAC100893D18 /* kcp.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69639BDD1EE1AAD700893D18 /* SFKcpTun.h in Headers */ = {isa = PBXBuildFile; fileRef = 69FFC69E1EB30985008A030D /* SFKcpTun.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -171,6 +172,7 @@
 		693F851721ECB98D005BC560 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		695165F71EBB32D2008DCF66 /* Crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Crypt.h; path = libkcp/Crypt.h; sourceTree = SOURCE_ROOT; };
 		695165F81EBB32D2008DCF66 /* Crypt.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Crypt.mm; path = libkcp/Crypt.mm; sourceTree = SOURCE_ROOT; };
+		6954574F243E0B6B0053E2D1 /* kcp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kcp.h; sourceTree = "<group>"; };
 		6959B7491EBB8B0C00B0BC58 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		69639BD51EE1AAC100893D18 /* kcp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = kcp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		69639BD71EE1AAC100893D18 /* kcp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kcp.h; sourceTree = "<group>"; };
@@ -386,6 +388,7 @@
 				69B7512D243DA48000678126 /* matrix.cpp */,
 				69B7512E243DA48000678126 /* sess.cpp */,
 				69B7512F243DA48000678126 /* fec.cpp */,
+				6954574F243E0B6B0053E2D1 /* kcp.h */,
 			);
 			name = libkcp;
 			path = ../../Sources/libkcp;
@@ -481,6 +484,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69545750243E0B8A0053E2D1 /* kcp.h in Headers */,
 				69FFC6A01EB30985008A030D /* SFKcpTun.h in Headers */,
 				69FFC6A51EB309E8008A030D /* TunConfig.h in Headers */,
 			);
