@@ -240,8 +240,10 @@ IUINT32 iclock() {
                 ptr += sended;
                 //NSLog(@"KCPTun sended:%zu, totoal:= %zu",sended,tosend);
                 //不能并行接收网络数据,效率有折扣
-                if (__builtin_available(iOS 12,macOS 10.14, *)) {
-                    sess->NWUpdate(iclock());
+                if(ENABLE_NETWORKFRAMEWORK) {
+                    if (__builtin_available(iOS 12,macOS 10.14, *) && ENABLE_NETWORKFRAMEWORK) {
+                        sess->NWUpdate(iclock());
+                    }
                 }else {
                     sess->Update(iclock());
                 }

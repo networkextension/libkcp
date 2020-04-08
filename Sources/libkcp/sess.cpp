@@ -126,10 +126,10 @@ UDPSession::DialWithOptions(const char *ip, const char *port, size_t dataShards,
         //
         
     }else {
-        uint16_t arrToInt = 0;
-        for(int i=0;i<=1;i++)
-            arrToInt =(arrToInt<<8) | port[i];
-        sess = UDPSession::Dial(ip, arrToInt);
+//        uint16_t arrToInt = 0;
+//        for(int i=0;i<=1;i++)
+//            arrToInt =(arrToInt<<8) | port[i];
+        sess = UDPSession::Dial(ip, (uint16_t)atoi(port));
         if (sess == nullptr) {
             return nullptr;
         }
@@ -219,10 +219,10 @@ UDPSession::Update(uint32_t current) noexcept {
     for (;;) {
         ssize_t n = recv(m_sockfd, m_buf, sizeof(m_buf), 0);
         if (n < 0) {
-            //perror("read fopen( \"null test.txt\", \"r\" )");
+            //perror("read error )");
             
-            debug_print("kcp udp socket read error");
-            //break;
+            //debug_print("kcp udp socket read error\n");
+            break;
         }
         if (n > 0) {
             dump((char*)"UDP Update", m_buf, n);
@@ -842,7 +842,7 @@ UDPSession::nwsend(nw_connection_t connection, dispatch_data_t _Nonnull write_da
     // but is required for UDP to indicate the end of a packet.
     debug_print("nw send data!\n");
     if (ENABLE_NETWORKFRAMEWORK) {
-        if (__builtin_available(iOS 12.0, *)) {
+        if (__builtin_available(iOS 12.0, macOS 10.14,*)) {
             nw_connection_send(connection, write_data, NW_CONNECTION_DEFAULT_MESSAGE_CONTEXT, true, ^(nw_error_t  _Nullable error) {
                 if (error != NULL) {
                     errno = nw_error_get_error_code(error);
